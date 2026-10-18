@@ -10,7 +10,7 @@ from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
-from pptx.enum.text import MSO_ANCHOR
+from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.enum.chart import XL_CHART_TYPE, XL_LABEL_POSITION
 from pptx.chart.data import CategoryChartData
 from pptx.oxml.xmlchemy import OxmlElement
@@ -28,6 +28,8 @@ C = {k: T['--planb-color-' + v].lstrip('#') for k,v in {
     'violet':'neon-violet','pink':'neon-pink'}.items()}
 prs = Presentation()
 prs.slide_width, prs.slide_height = Inches(13.333333), Inches(7.5)
+for shape in list(prs.slide_master.shapes):
+    shape._element.getparent().remove(shape._element)
 prs.core_properties.title = 'Plan B — Civic Digital Commons'
 prs.core_properties.subject = 'Reusable 16:9 slide layouts and editable starter deck'
 prs.core_properties.author = 'Plan B Foundation'
@@ -50,6 +52,8 @@ def text(s,txt,x,y,w,h,size=22,color='ink',bold=False,ph=None,name=None):
     for i,line in enumerate(txt.split('\n')):
         p=tf.paragraphs[0] if i==0 else tf.add_paragraph()
         p.text=line; p.font.name='Inter'; p.font.size=Pt(size); p.font.bold=bold
+        p.alignment=PP_ALIGN.LEFT
+        ppr=p._p.get_or_add_pPr(); ppr.set('marL','0'); ppr.set('indent','0'); ppr.append(OxmlElement('a:buNone'))
         p.font.color.rgb=rgb(color); p.space_after=Pt(12); p.line_spacing=1.12
     if ph:
         nv=sh._element.find(qn('p:nvSpPr')).find(qn('p:nvPr'))
@@ -90,13 +94,13 @@ def heading(s,title,sub=None):
 layouts=list(prs.slide_layouts)
 for layout in layouts:
     for sh in list(layout.shapes): sh._element.getparent().remove(sh._element)
-    layout._element.set('showMasterSp','0')
+    layout._element.set('showMasterSp','1')
     layout._element.set('type','cust')
     layout._element.set('preserve','1')
 
 def new(i,name,dark=False):
     layout=layouts[i]; layout.name='Plan B / '+name
-    s=prs.slides.add_slide(layout); s._element.set('showMasterSp','0'); chrome(s,dark)
+    s=prs.slides.add_slide(layout); s._element.set('showMasterSp','1'); chrome(s,dark)
     return s
 
 def finalize(s,notes):
@@ -147,6 +151,7 @@ finalize(s,'TWO COLUMNS. Useful for problem/response, today/proposal, or two opt
 s=new(4,'Image and story')
 heading(s,'[Make the place visible]')
 rect(s,.65,2,7.35,4.25,'cool',True)
+text(s,'Insert a documentary photograph',1,3.1,6.6,1.15,26,'navy',True)
 text(s,'[Insert a documentary photograph]',1,3.1,6.6,1.15,26,'navy',True,('pic',1))
 text(s,'[What should we notice?]',8.5,2.2,4.1,1.1,27,'navy',True,('body',2))
 text(s,'[Connect the image to the public purpose. Use real Lugano, civic spaces, workshops or people making and learning.]',8.5,3.55,4.1,2.6,22,'ink',False,('body',3))
