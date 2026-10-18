@@ -9,7 +9,7 @@ A standalone reference for the Civic Digital Commons design system: a short webs
 - Import `tokens/tokens.css` and `tokens/layout.css` for new interfaces. Select dark mode with `document.documentElement.dataset.theme = 'dark'`.
 - Use [brand.json](brand.json) for resource discovery and [tokens/tokens.json](tokens/tokens.json) for exact values. JSON is a versioned custom format with CSS string values, not DTCG.
 - Keep original logos intact; see [asset notes](assets/README.md).
-- For presentations, start with the [editable PPTX](slides/planb-starter.pptx), [reusable POTX](slides/planb-template.potx) and [slide guide](slides/README.md). Install the included Inter fonts before editing.
+- For presentations, choose the [light PPTX](slides/planb-starter-light.pptx) or [dark PPTX](slides/planb-starter-dark.pptx). Both have gradient accents on every layout. Matching reusable POTX templates and PDF previews are linked in the [slide guide](slides/README.md). Install the included Inter fonts before editing.
 
 ## Develop
 

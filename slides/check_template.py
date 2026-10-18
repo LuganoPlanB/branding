@@ -36,6 +36,9 @@ for filename,kind,mode in packages:
                     assert children.index(props.find('a:prstGeom',ns)) < children.index(gradient), 'DrawingML geometry must precede fill'
                     extent=props.find('a:xfrm/a:ext',ns)
                     assert int(extent.get('cy'))>=91440, 'Gradient band must be at least 0.1 inches tall'
+            for shape in tree.findall('.//p:sp',ns):
+                if shape.find('p:spPr/a:gradFill',ns) is not None:
+                    assert shape.find('p:style',ns) is None, 'Gradient must not inherit Office shadow effects'
             bg=tree.find('p:cSld/p:bg/p:bgPr/a:solidFill/a:srgbClr',ns).get('val').lower()
             assert bg in [tokens[mode][key].lstrip('#') for key in ('--planb-color-canvas','--planb-color-canvas-alt')], (filename,layout,bg)
         for slide in slides:

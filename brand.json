@@ -17,7 +17,13 @@
     "slideGuide": "slides/README.md",
     "slideStarter": "slides/planb-starter.pptx",
     "slideTemplate": "slides/planb-template.potx",
-    "slidePreview": "slides/planb-preview.pdf"
+    "slidePreview": "slides/planb-preview.pdf",
+    "slideStarterLight": "slides/planb-starter-light.pptx",
+    "slideTemplateLight": "slides/planb-template-light.potx",
+    "slidePreviewLight": "slides/planb-preview-light.pdf",
+    "slideStarterDark": "slides/planb-starter-dark.pptx",
+    "slideTemplateDark": "slides/planb-template-dark.potx",
+    "slidePreviewDark": "slides/planb-preview-dark.pdf"
   },
   "roles": {
     "canvas": "--planb-color-canvas",

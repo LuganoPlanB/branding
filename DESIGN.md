@@ -88,6 +88,8 @@ Neutral: Warm Canvas is the default page ground, Cool Canvas organizes secondary
 
 The fixed palette specimens continue to show source light colors when the surrounding page switches theme. Dark semantic values use charcoal, white, Civic Coral and Bitcoin Orange; read their exact values and different gradient stops from the token files. The frontmatter is not a replacement dark palette.
 
+Presentation editions carry the same light and dark semantic palettes into all eleven layouts. Native Network Energy gradient bands appear on every layout, including Blank, with larger accents on covers, section dividers and quotations. Text stays on solid backgrounds.
+
 ## Typography
 
 ### Font family: Inter

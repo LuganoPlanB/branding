@@ -1,8 +1,13 @@
 # Plan B presentation template
 
-Start with **planb-starter.pptx**. It contains ten example slides you can edit immediately. Use **planb-template.potx** when you want PowerPoint to create a fresh presentation from the reusable template. Both contain eleven named Plan B layouts in the New Slide / Layout menu.
+Choose a complete **light** or **dark** edition. Each starter has ten editable example slides; each PPTX and POTX contains eleven matching Plan B layouts in the New Slide / Layout menu. Every layout includes a native gradient band, with larger gradient accents on the cover, section divider and quotation.
 
-Open **planb-preview.pdf** for a quick visual overview. It is a LibreOffice rendering of the starter, not a replacement for the editable files.
+| Edition | Editable starter | Reusable template | Rendered preview |
+| --- | --- | --- | --- |
+| Light | [PPTX](planb-starter-light.pptx) | [POTX](planb-template-light.potx) | [PDF](planb-preview-light.pdf) |
+| Dark | [PPTX](planb-starter-dark.pptx) | [POTX](planb-template-dark.potx) | [PDF](planb-preview-dark.pdf) |
+
+Use the POTX to create a fresh presentation. PDF previews are LibreOffice renderings; edit the Office files. The original `planb-starter.pptx`, `planb-template.potx` and `planb-preview.pdf` download paths remain aliases of the light edition.
 
 ## First use
 
@@ -26,7 +31,7 @@ Inter is open source under the bundled [SIL Open Font License 1.1](fonts/OFL.txt
 | Layout | Use |
 | --- | --- |
 | Cover | Title, public purpose, presenter and date |
-| Section | Navy divider with one clear proposition |
+| Section | Theme-matched divider with a prominent gradient accent |
 | Title and content | Three concise statements |
 | Two columns | Compare perspectives or options |
 | Image and story | Picture placeholder, context and source credit |
@@ -35,13 +40,15 @@ Inter is open source under the bundled [SIL Open Font License 1.1](fonts/OFL.txt
 | Quotation | Verified quotation and attribution |
 | Next steps | Actions, ownership, timing and contact |
 | Template guide | Instructions; delete before presenting |
-| Blank | Warm-canvas freeform layout |
+| Blank | Theme-matched freeform layout with a gradient band |
 
 Each example has usage guidance in its speaker notes. All examples are prompts; the chart data are explicitly synthetic. No impact claims, partner endorsements or testimonials are implied.
 
 ## Design decisions
 
-16:9 widescreen. Warm Canvas, Civic Ink, Lugano Night, Civic Sky and a scarce Commons Gold signal. A native editable gradient appears only on the cover. Navy dividers are a presentation treatment, not the charcoal dark UI theme. Inter headings and spacious body text support the inherited Civic Digital Commons identity.
+16:9 widescreen. The light edition uses Warm Canvas, Civic Ink and Lugano Night, with a navy logo panel. The dark edition uses charcoal canvas, white text, dark panels, Civic Coral and Bitcoin Orange. Charts, tables, image placeholders and dividers all follow the selected edition.
+
+Native gradient shapes use the exact Network Energy stops from each theme: light gold 0%, pink 28%, violet 58%, cyan 100%; dark orange 0%, pink 34%, violet 68%, cyan 100%. The gradient is part of every reusable layout, including Blank. Keep text on solid backgrounds. To edit the shared gradient, use **View → Slide Master**, select a Plan B layout and its “Network energy gradient” shape, then **Format Shape → Gradient fill**. Editing a layout updates slides using it. Inter headings and spacious body text support the inherited Civic Digital Commons identity.
 
 PowerPoint's theme contains the brand palette and Inter as both major and minor font. New shapes and charts can use Theme Colors. A theme is not a contrast checker: keep ordinary text navy/ink on light backgrounds, or warm white on navy. Avoid sky-blue text on white.
 
@@ -53,7 +60,7 @@ PowerPoint-specific rendering has not been manually inspected; consult the gener
 
 Read `../docs/brand-brief.md` before changing the design. Edit the generator, not just the binaries, so future output remains reproducible. Use standard PowerPoint placeholders and editable objects; never flatten full slides into images. The generator reads the shared theme's token JSON.
 
-Regeneration requires a clone of the branding repository, not only the downloaded slide kit. Run the commands below from the repository root. After rendering, refresh `slides/planb-preview.pdf` from the CI artifact so it matches the delivered starter.
+Regeneration requires a clone of the branding repository, not only the downloaded slide kit. Run the commands below from the repository root. After rendering, refresh `slides/planb-preview-light.pdf` and `slides/planb-preview-dark.pdf` from the matching CI artifacts. Copy the light PDF to the legacy `slides/planb-preview.pdf` path as well.
 
 ```sh
 python3 -m venv .venv
@@ -63,6 +70,6 @@ python3 -m venv .venv
 python3 slides/check_template.py
 ```
 
-The `Validate slide template` GitHub Action checks the Office packages and renders both formats with LibreOffice. Its artifact contains the PDF and individual slide previews. Rendering the generated files is necessary after layout edits; passing ZIP/XML checks alone does not prove visual quality.
+The `Validate slide template` GitHub Action checks the Office packages and renders both formats in both themes with LibreOffice. Its artifact contains the PDF and individual slide previews. Rendering the generated files is necessary after layout edits; passing ZIP/XML checks alone does not prove visual quality.
 
 Desktop font source: `https://raw.githubusercontent.com/rsms/inter/master/docs/font-files/InterVariable.ttf`. The committed original pins the downloaded bytes. Static Inter Regular/Bold instances are generated from it with optical size 14. The deck uses native Office text, shape, gradient, chart and table objects, so no design plugin subscription is required.

@@ -14,7 +14,9 @@ Read docs/brand-brief.md first. Preserve the inherited identity and original SVG
 - [Source boundaries](docs/sources.md): authority, differences and downstream usage.
 - [Asset notes](assets/README.md): SVG usage and rights.
 - [Presentation guide](slides/README.md): editable slide template, usage and reproducible generator.
-- [PowerPoint starter](slides/planb-starter.pptx): ten editable slides and eleven named layouts.
-- [PowerPoint template](slides/planb-template.potx): reusable 16:9 template with Plan B theme colors and Inter.
+- [Light PowerPoint starter](slides/planb-starter-light.pptx): ten editable slides and eleven named layouts, all with native gradient accents.
+- [Dark PowerPoint starter](slides/planb-starter-dark.pptx): complete charcoal/white edition with theme-matched gradients, charts and tables.
+- [Light template](slides/planb-template-light.potx) and [dark template](slides/planb-template-dark.potx): reusable 16:9 templates with Plan B theme colors and Inter.
+- [Light preview](slides/planb-preview-light.pdf) and [dark preview](slides/planb-preview-dark.pdf): rendered examples.
 
 For new UI, start with the brief, import both CSS files, and use semantic custom properties. Treat the theme's existing component API as a separate dependency. Inspect original artwork before choosing a logo variant.
