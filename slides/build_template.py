@@ -3,6 +3,11 @@ from copy import deepcopy
 from io import BytesIO
 from pathlib import Path
 import json
+import argparse
+import re
+import subprocess
+import sys
+import shutil
 import zipfile
 from lxml import etree
 import cairosvg
@@ -21,16 +26,30 @@ from pptx.opc.constants import RELATIONSHIP_TYPE as RT
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'slides'
-T = json.loads((ROOT / 'tokens/tokens.json').read_text())['light']
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--theme', choices=['light', 'dark'])
+args = parser.parse_args()
+if args.theme is None:
+    for mode in ('light', 'dark'):
+        subprocess.run([sys.executable, __file__, '--theme', mode], check=True)
+    # Keep existing download URLs working as aliases of the light edition.
+    for stem, ext in [('starter', 'pptx'), ('template', 'potx')]:
+        shutil.copyfile(OUT / f'planb-{stem}-light.{ext}', OUT / f'planb-{stem}.{ext}')
+    sys.exit(0)
+MODE = args.theme
+DARK = MODE == 'dark'
+T = json.loads((ROOT / 'tokens/tokens.json').read_text())[MODE]
 C = {k: T['--planb-color-' + v].lstrip('#') for k,v in {
     'canvas':'canvas','cool':'canvas-alt','ink':'text','navy':'accent-strong',
-    'sky':'accent','gold':'highlight','mist':'accent-soft','cyan':'neon-cyan',
+    'sky':'accent','gold':'highlight','cyan':'neon-cyan',
     'violet':'neon-violet','pink':'neon-pink'}.items()}
+C.update(panel='211D1D' if DARK else '082952', onpanel='FFFFFF' if DARK else 'FFFEFA',
+         mist='494040' if DARK else 'DCEAF6', header='211D1D' if DARK else '082952')
 prs = Presentation()
 prs.slide_width, prs.slide_height = Inches(13.333333), Inches(7.5)
 for shape in list(prs.slide_master.shapes):
     shape._element.getparent().remove(shape._element)
-prs.core_properties.title = 'Plan B — Civic Digital Commons'
+prs.core_properties.title = f'Plan B — Civic Digital Commons / {MODE.title()}'
 prs.core_properties.subject = 'Reusable 16:9 slide layouts and editable starter deck'
 prs.core_properties.author = 'Plan B Foundation'
 prs.core_properties.keywords = 'Plan B, branding, template, Civic Digital Commons'
@@ -62,12 +81,14 @@ def text(s,txt,x,y,w,h,size=22,color='ink',bold=False,ph=None,name=None):
     return sh
 
 def gradient(s,x,y,w,h):
-    sh=rect(s,x,y,w,h,'gold'); sp=sh._element.spPr
+    sh=rect(s,x,y,w,h,'gold'); sh.name='Plan B / Network energy gradient'; sp=sh._element.spPr
     sp.remove(sp.find(qn('a:solidFill')))
     g=OxmlElement('a:gradFill'); g.set('rotWithShape','1'); stops=OxmlElement('a:gsLst')
-    for pos,col in [(0,'gold'),(28000,'pink'),(58000,'violet'),(100000,'cyan')]:
-        stop=OxmlElement('a:gs'); stop.set('pos',str(pos)); c=OxmlElement('a:srgbClr'); c.set('val',C[col]); stop.append(c); stops.append(stop)
-    g.append(stops); lin=OxmlElement('a:lin'); lin.set('ang','0'); lin.set('scaled','1'); g.append(lin); sp.insert(1,g)
+    for col, percent in re.findall(r'(#[0-9a-fA-F]{6}) (\d+)%', T['--planb-gradient-rainbow']):
+        pos=int(percent)*1000
+        stop=OxmlElement('a:gs'); stop.set('pos',str(pos)); c=OxmlElement('a:srgbClr'); c.set('val',col.lstrip('#').upper()); stop.append(c); stops.append(stop)
+    g.append(stops); lin=OxmlElement('a:lin'); lin.set('ang','0'); lin.set('scaled','1'); g.append(lin); sp.insert_element_before(g,'a:ln','a:effectLst')
+    return sh
 
 def logo(s,x,y,w,variant='white'):
     path=ROOT/f'assets/logos/lugano_planb_2026_logo_wide_{variant}.svg'
@@ -83,8 +104,9 @@ def logo(s,x,y,w,variant='white'):
     return pic
 
 def chrome(s,dark=False):
-    bg=s.background.fill; bg.solid(); bg.fore_color.rgb=rgb('navy' if dark else 'canvas')
-    fg='canvas' if dark else 'navy'
+    bg=s.background.fill; bg.solid(); bg.fore_color.rgb=rgb('cool' if dark else 'canvas')
+    fg='navy'
+    gradient(s,.65,6.74,12,.10)
     text(s,'Plan B Foundation',.65,6.98,4,.25,11,fg,True)
     text(s,'Civic Digital Commons',9.4,6.98,3.25,.25,11,fg)
 
@@ -100,7 +122,7 @@ for layout in layouts:
     layout._element.set('preserve','1')
 
 def new(i,name,dark=False):
-    layout=layouts[i]; layout.name='Plan B / '+name
+    layout=layouts[i]; layout.name=f'Plan B / {MODE.title()} / '+name
     s=prs.slides.add_slide(layout); s._element.set('showMasterSp','1'); chrome(s,dark)
     return s
 
@@ -123,21 +145,21 @@ s=new(0,'Cover')
 text(s,'[Presentation\ntitle]',.65,1.35,7.3,2.15,48,'navy',True,('title',0))
 text(s,'[A clear sentence about the civic purpose]',.68,3.9,6.8,.9,24,'ink',False,('subTitle',1))
 text(s,'[Presenter / team]\n[Event · date]',.68,5.55,6.5,.8,17,'ink',False,('body',2))
-rect(s,8.55,0,4.79,6.65,'navy'); logo(s,9.08,1.45,3.72)
-text(s,'Open.\nCapable.\nCurious.\nGrounded.',9.08,3.05,3.6,2.3,29,'canvas',True)
-gradient(s,8.55,6.58,4.79,.07)
+rect(s,8.55,0,4.79,6.65,'panel'); logo(s,9.08,1.45,3.72)
+text(s,'Open.\nCapable.\nCurious.\nGrounded.',9.08,3.05,3.6,2.3,29,'onpanel',True)
+gradient(s,8.55,6.25,4.79,.4)
 finalize(s,'COVER. Replace bracketed text. Aim for a title under 8 words. Keep the inherited mark intact. This template uses the existing Lugano Plan B identity, not a newly designed Foundation logo. Install bundled Inter fonts before editing. Choose Home > New Slide for Plan B layouts.')
 
 s=new(1,'Section',True)
-text(s,'[Section title]',.8,2.05,11.6,1.7,48,'canvas',True,('title',0))
-text(s,'[One sentence that sets the direction]',.85,4.15,10.8,.9,25,'canvas',False,('body',1))
-rect(s,.85,1.45,.65,.08,'gold')
-finalize(s,'SECTION. Use between major topics, not before every slide. Navy is a presentation divider, not the default dark UI theme. Gold is the single accent. Keep the statement short.')
+text(s,'[Section title]',.8,2.05,11.6,1.7,48,'navy',True,('title',0))
+text(s,'[One sentence that sets the direction]',.85,4.15,10.8,.9,25,'ink',False,('body',1))
+gradient(s,.85,1.35,3.6,.22)
+finalize(s,'SECTION. Use between major topics, not before every slide. The background follows the selected light or dark edition. The gradient is the brand signal. Keep the statement short.')
 
 s=new(2,'Title and content')
 heading(s,'[Lead with the point]','[Explain why this matters to the audience]')
 text(s,'[First idea — one concise sentence]\n[Second idea — one concise sentence]\n[Third idea — one concise sentence]',.85,2.85,11.3,2.9,27,'ink',False,('body',2))
-rect(s,.65,2.72,.07,2.6,'sky')
+# The common gradient band carries the brand without competing with body text.
 finalize(s,'CONTENT. Use three short statements instead of a wall of bullets. Body is 27pt. Explain public benefit before technical detail. The editable text box supports additional paragraphs but do not shrink below 20pt to fit more content.')
 
 s=new(3,'Two columns')
@@ -172,12 +194,20 @@ data=CategoryChartData(); data.categories=['Example A','Example B','Example C'];
 chart=s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED,Inches(.75),Inches(2.65),Inches(7.8),Inches(3.55),data).chart
 chart.has_legend=False; chart.has_title=False
 chart.chart_style=10
+chart_style=OxmlElement('c:spPr')
+chart_fill=OxmlElement('a:solidFill'); chart_color=OxmlElement('a:srgbClr'); chart_color.set('val',C['canvas'])
+chart_fill.append(chart_color); chart_style.append(chart_fill)
+chart_line=OxmlElement('a:ln'); chart_line.append(OxmlElement('a:noFill')); chart_style.append(chart_line)
+chart._chartSpace.insert_element_before(chart_style,'c:txPr','c:externalData','c:printSettings','c:userShapes','c:extLst')
 chart.category_axis.tick_labels.font.name='Inter'; chart.category_axis.tick_labels.font.size=Pt(15)
 chart.value_axis.tick_labels.font.name='Inter'; chart.value_axis.tick_labels.font.size=Pt(12)
 chart.value_axis.minimum_scale=0; chart.value_axis.maximum_scale=60
 chart.plots[0].has_data_labels=True; chart.plots[0].data_labels.position=XL_LABEL_POSITION.OUTSIDE_END
 chart.plots[0].data_labels.font.name='Inter'; chart.plots[0].data_labels.font.size=Pt(15)
-for point,col in zip(chart.series[0].points,['navy','sky','gold']): point.format.fill.solid(); point.format.fill.fore_color.rgb=rgb(col); point.format.line.fill.background()
+for labels in (chart.category_axis.tick_labels, chart.value_axis.tick_labels, chart.plots[0].data_labels):
+    labels.font.color.rgb=rgb('ink')
+chart.value_axis.major_gridlines.format.line.color.rgb=rgb('mist')
+for point,col in zip(chart.series[0].points,['violet','sky','gold'] if DARK else ['navy','sky','gold']): point.format.fill.solid(); point.format.fill.fore_color.rgb=rgb(col); point.format.line.fill.background()
 
 s=new(6,'Table')
 heading(s,'[Make a decision easier]','[Explain what the comparison includes]')
@@ -191,13 +221,13 @@ rows=[['[Option]','[Public benefit]','[Consideration]'],['[Option A]','[Benefit]
 for ri,row in enumerate(rows):
     for ci,txt in enumerate(row):
         cell=table.cell(ri,ci); cell.text=txt; cell.margin_left=Inches(.18); cell.margin_top=Inches(.14)
-        cell.fill.solid(); cell.fill.fore_color.rgb=rgb('navy' if ri==0 else ('cool' if ri%2 else 'canvas'))
-        for p in cell.text_frame.paragraphs: p.font.name='Inter'; p.font.size=Pt(20); p.font.bold=ri==0; p.font.color.rgb=rgb('canvas' if ri==0 else 'ink')
+        cell.fill.solid(); cell.fill.fore_color.rgb=rgb('header' if ri==0 else ('cool' if ri%2 else 'canvas'))
+        for p in cell.text_frame.paragraphs: p.font.name='Inter'; p.font.size=Pt(20); p.font.bold=ri==0; p.font.color.rgb=rgb('onpanel' if ri==0 else 'ink')
 
 s=new(7,'Quotation')
 text(s,'[A short quotation,\naccurately attributed.]',.85,1.6,11.3,2.9,42,'navy',True,('title',0))
 text(s,'[Speaker / role]\n[Source · date]',.9,5,10.7,1.1,20,'ink',False,('body',1))
-rect(s,.85,1.05,.7,.08,'gold')
+gradient(s,.85,1.05,2.8,.16)
 finalize(s,'QUOTE. This is placeholder text, not a real quotation or endorsement. Verify the wording, permission where required, attribution and source. Keep quotations short. Do not invent testimonials.')
 
 s=new(8,'Next steps')
@@ -212,14 +242,17 @@ finalize(s,'NEXT STEPS. Close with specific actions and realistic timing. Add a 
 s=new(9,'Template guide')
 heading(s,'Make it yours. Keep it Plan B.','Delete this guidance slide before presenting.')
 text(s,'Use the layouts\nInstall Inter, then choose Home → New Slide. Replace bracketed prompts. Duplicate the chart or table example to retain its styling.',.7,2.75,5.6,2.9,23,'ink',False,('body',2))
-text(s,'Keep it clear\nOne idea per slide. Use navy and warm white. Choose gold or a small gradient as the exceptional signal. Aim for 20pt or larger body text.',7,2.75,5.6,2.9,23,'ink',False,('body',3))
+text(s,'Keep it clear\nOne idea per slide. Keep the selected light or dark palette. Preserve the gradient band and keep text on solid grounds. Aim for 20pt or larger body text.',7,2.75,5.6,2.9,23,'ink',False,('body',3))
 for i,col in enumerate(['navy','sky','gold','canvas']):
     rect(s,.7+i*.6,6,.4,.25,col)
 text(s,'Full guidance: plan-b.foundation/branding/',3.4,6,8.8,.4,15,'navy')
 finalize(s,'GUIDE. This deck is an editable starter, not a finished presentation. Ten Plan B layouts plus a branded blank are supplied. Speaker notes describe usage. Reuse the POTX in PowerPoint to create a new document. Keynote/LibreOffice may vary in rendering; check after import.')
 
 # An additional empty layout for content that does not fit the supplied patterns.
-layout=layouts[10]; layout.name='Plan B / Blank'; layout.background.fill.solid(); layout.background.fill.fore_color.rgb=rgb('canvas')
+layout=layouts[10]; layout.name=f'Plan B / {MODE.title()} / Blank'; layout.background.fill.solid(); layout.background.fill.fore_color.rgb=rgb('canvas')
+
+band=next(sh for sh in layouts[0].shapes if sh.name=='Plan B / Network energy gradient')
+layout.shapes._spTree.insert_element_before(deepcopy(band._element),'p:extLst')
 
 # Apply actual theme colors/fonts so new objects and charts inherit Plan B defaults.
 theme=prs.slide_master.part.part_related_by(RT.THEME)
@@ -235,12 +268,14 @@ for el in tree.findall('.//a:fontScheme',ns):
     el.set('name','Plan B Inter')
     for latin in el.findall('.//a:latin',ns): latin.set('typeface','Inter')
 theme._blob=etree.tostring(tree,xml_declaration=True,encoding='UTF-8',standalone=True)
-prs.save(OUT/'planb-starter.pptx')
+starter=OUT/f'planb-starter-{MODE}.pptx'
+template=OUT/f'planb-template-{MODE}.potx'
+prs.save(starter)
 
 # POTX differs from PPTX at the main-part content type, not just the extension.
-with zipfile.ZipFile(OUT/'planb-starter.pptx') as src, zipfile.ZipFile(OUT/'planb-template.potx','w',zipfile.ZIP_DEFLATED) as dst:
+with zipfile.ZipFile(starter) as src, zipfile.ZipFile(template,'w',zipfile.ZIP_DEFLATED) as dst:
     for item in src.infolist():
         blob=src.read(item.filename)
         if item.filename=='[Content_Types].xml': blob=blob.replace(b'application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml',b'application/vnd.openxmlformats-officedocument.presentationml.template.main+xml')
         dst.writestr(item,blob)
-print('Generated 10 editable starter slides, 11 named layouts, PPTX and POTX.')
+print(f'Generated {MODE}: 10 editable starter slides, 11 named layouts with gradients, PPTX and POTX.')

@@ -1,12 +1,17 @@
 """Check Office packaging, master/layout structure and editability without dependencies."""
 from pathlib import Path, PurePosixPath
+import json
+import re
 import posixpath
 import zipfile
 import xml.etree.ElementTree as ET
 
 root=Path(__file__).resolve().parent
 ns={'p':'http://schemas.openxmlformats.org/presentationml/2006/main','a':'http://schemas.openxmlformats.org/drawingml/2006/main'}
-for filename,kind in [('planb-starter.pptx','presentation'),('planb-template.potx','template')]:
+tokens=json.loads((root.parent/'tokens/tokens.json').read_text())
+packages=[(f'planb-{stem}-{mode}.{ext}',kind,mode) for mode in ('light','dark') for stem,ext,kind in [('starter','pptx','presentation'),('template','potx','template')]]
+packages += [('planb-starter.pptx','presentation','light'),('planb-template.potx','template','light')]
+for filename,kind,mode in packages:
     with zipfile.ZipFile(root/filename) as z:
         assert z.testzip() is None
         names=set(z.namelist())
@@ -18,6 +23,21 @@ for filename,kind in [('planb-starter.pptx','presentation'),('planb-template.pot
         for layout in layouts:
             tree=ET.fromstring(z.read(layout)); assert tree.find('p:cSld',ns).get('name').startswith('Plan B / ')
             assert tree.get('showMasterSp')=='1','Layout artwork must remain visible'
+            expected=[(str(int(pos)*1000),color.lstrip('#').upper()) for color,pos in re.findall(r'(#[0-9a-fA-F]{6}) (\d+)%',tokens[mode]['--planb-gradient-rainbow'])]
+            gradients=tree.findall('.//a:gradFill',ns)
+            assert gradients, f'{layout} must include a visible brand gradient'
+            for gradient in gradients:
+                actual=[(stop.get('pos'),stop.find('a:srgbClr',ns).get('val')) for stop in gradient.findall('a:gsLst/a:gs',ns)]
+                assert actual==expected,(filename,actual,expected)
+            for props in tree.findall('.//p:spPr',ns):
+                gradient=props.find('a:gradFill',ns)
+                if gradient is not None:
+                    children=list(props)
+                    assert children.index(props.find('a:prstGeom',ns)) < children.index(gradient), 'DrawingML geometry must precede fill'
+                    extent=props.find('a:xfrm/a:ext',ns)
+                    assert int(extent.get('cy'))>=91440, 'Gradient band must be at least 0.1 inches tall'
+            bg=tree.find('p:cSld/p:bg/p:bgPr/a:solidFill/a:srgbClr',ns).get('val').lower()
+            assert bg in [tokens[mode][key].lstrip('#') for key in ('--planb-color-canvas','--planb-color-canvas-alt')], (filename,layout,bg)
         for slide in slides:
             tree=ET.fromstring(z.read(slide))
             assert tree.get('showMasterSp')=='1','Slide must display inherited artwork'
@@ -41,4 +61,7 @@ for filename,kind in [('planb-starter.pptx','presentation'),('planb-template.pot
                     if rel.get('TargetMode')=='External': continue
                     target=posixpath.normpath(str(base/rel.get('Target'))).lstrip('/')
                     assert target in names,(name,target)
-        print(f'PASS {filename}: 10 slides, 11 named layouts, 16:9, Inter theme, editable chart/workbook and table, valid XML and relationships.')
+        print(f'PASS {filename}: {mode} palette, token-matched gradients on every layout; 10 slides, 11 named layouts, 16:9, Inter theme, editable chart/workbook and table, valid XML and relationships.')
+
+for stem,ext in [('starter','pptx'),('template','potx')]:
+    assert (root/f'planb-{stem}.{ext}').read_bytes()==(root/f'planb-{stem}-light.{ext}').read_bytes(), 'Legacy URLs must match light edition'

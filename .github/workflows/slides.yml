@@ -29,14 +29,17 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          mkdir -p rendered/template
-          libreoffice -env:UserInstallation=file:///tmp/planb-office --headless --convert-to pdf --outdir rendered slides/planb-starter.pptx
-          libreoffice -env:UserInstallation=file:///tmp/planb-office --headless --convert-to pdf --outdir rendered/template slides/planb-template.potx
-          test -s rendered/planb-starter.pdf
-          test -s rendered/template/planb-template.pdf
-          pdfinfo rendered/planb-starter.pdf
-          pdftoppm -scale-to 1280 -png rendered/planb-starter.pdf rendered/slide
-          pdftotext -layout rendered/planb-starter.pdf rendered/text.txt
+          for mode in light dark; do
+            mkdir -p "rendered/$mode/template"
+            libreoffice -env:UserInstallation=file:///tmp/planb-office --headless --convert-to pdf --outdir "rendered/$mode" "slides/planb-starter-$mode.pptx"
+            libreoffice -env:UserInstallation=file:///tmp/planb-office --headless --convert-to pdf --outdir "rendered/$mode/template" "slides/planb-template-$mode.potx"
+            test -s "rendered/$mode/planb-starter-$mode.pdf"
+            test -s "rendered/$mode/template/planb-template-$mode.pdf"
+            pdfinfo "rendered/$mode/planb-starter-$mode.pdf"
+            pdftoppm -scale-to 1280 -png "rendered/$mode/planb-starter-$mode.pdf" "rendered/$mode/slide"
+            pdftoppm -scale-to 1280 -png "rendered/$mode/template/planb-template-$mode.pdf" "rendered/$mode/template/slide"
+            pdftotext -layout "rendered/$mode/planb-starter-$mode.pdf" "rendered/$mode/text.txt"
+          done
       - uses: actions/upload-artifact@v4
         with:
           name: planb-slides-preview
