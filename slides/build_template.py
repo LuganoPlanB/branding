@@ -60,6 +60,10 @@ def rgb(color): return RGBColor.from_string(C.get(color,color))
 def rect(s,x,y,w,h,color,radius=False):
     sh=s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE if radius else MSO_SHAPE.RECTANGLE, Inches(x), Inches(y), Inches(w), Inches(h))
     sh.fill.solid(); sh.fill.fore_color.rgb=rgb(color); sh.line.fill.background()
+    # Remove Office's default style reference: renderers otherwise add a shadow
+    # to the brand bands even when the local effect list is empty.
+    style=sh._element.find(qn('p:style'))
+    if style is not None: sh._element.remove(style)
     sh._element.spPr.append(OxmlElement('a:effectLst'))
     if radius: sh.adjustments[0]=.12
     return sh
@@ -187,7 +191,7 @@ text(s,'[Insert chart]',.7,2.5,7.8,3.75,22,'navy',False,('chart',2))
 text(s,'[The takeaway]',9,2.65,3.6,.85,27,'navy',True,('body',3))
 text(s,'[Explain the implication and the limits of the evidence.]',9,3.75,3.6,2.1,22,'ink',False,('body',4))
 text(s,'ILLUSTRATIVE DATA ONLY · Replace values and add a source before presenting.',.7,6.45,11.9,.35,12,'ink',False,('body',5))
-finalize(s,'CHART. The starter contains an editable native PowerPoint chart with an embedded Excel workbook. All values are synthetic. Use Edit Data to replace them. Give units, source, date and uncertainty. Use navy for structure, blue for context and gold for one emphasis.')
+finalize(s,'CHART. The starter contains an editable native PowerPoint chart with an embedded Excel workbook. All values are synthetic. Use Edit Data to replace them. Give units, source, date and uncertainty. Preserve the selected light or dark edition colors and keep all labels readable.')
 for sh in list(s.shapes):
     if sh.is_placeholder and sh.placeholder_format.idx==2: sh._element.getparent().remove(sh._element)
 data=CategoryChartData(); data.categories=['Example A','Example B','Example C']; data.add_series('Illustrative values',[20,35,50])
@@ -213,7 +217,7 @@ s=new(6,'Table')
 heading(s,'[Make a decision easier]','[Explain what the comparison includes]')
 text(s,'[Insert table]',.7,2.55,11.95,3.6,22,'navy',False,('tbl',2))
 text(s,'[Source / definitions / caveat]',.7,6.35,11.9,.4,13,'ink',False,('body',3))
-finalize(s,'TABLE. Native editable table in the starter. Keep to 3–4 columns and 3–5 rows. Replace bracketed fields. Do not use a screenshot of a spreadsheet. Keep text at least 20pt. Use a navy header and alternating quiet grounds.')
+finalize(s,'TABLE. Native editable table in the starter. Keep to 3–4 columns and 3–5 rows. Replace bracketed fields. Do not use a screenshot of a spreadsheet. Keep text at least 20pt. Preserve the selected edition header and alternating quiet grounds.')
 for sh in list(s.shapes):
     if sh.is_placeholder and sh.placeholder_format.idx==2: sh._element.getparent().remove(sh._element)
 table=s.shapes.add_table(4,3,Inches(.7),Inches(2.55),Inches(11.95),Inches(3.4)).table
