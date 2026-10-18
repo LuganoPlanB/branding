@@ -1,10 +1,20 @@
 import { mkdir, rm, cp, readFile, writeFile, readdir } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 const escape = value => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist/downloads', { recursive: true });
 for (const file of ['assets', 'tokens', 'docs', 'slides', 'DESIGN.md', 'styles.css', 'theme.js', 'app.js', 'brand.json', 'llms.txt', 'provenance.json']) await cp(file, `dist/${file}`, { recursive: true, filter: path => !path.includes('__pycache__') });
 let html = await readFile('index.html', 'utf8');
+// HTML and scripts can have different cache ages on Pages. Bind each page to
+// its exact script/style bytes so new controls never receive old behavior.
+for (const file of ['app.js', 'theme.js', 'styles.css']) {
+  const bytes = await readFile(file);
+  const hash = createHash('sha256').update(bytes).digest('hex').slice(0, 12);
+  const versioned = file.replace(/(\.[^.]+)$/, `.${hash}$1`);
+  await writeFile(`dist/${versioned}`, bytes);
+  html = html.replaceAll(`"${file}"`, `"${versioned}"`);
+}
 const links = [];
 for (const directory of ['logos', 'shapes']) for (const name of (await readdir(`assets/${directory}`)).sort()) {
   links.push(`<a href="assets/${directory}/${escape(name)}" download>${escape(name.replaceAll('_', ' ').replace('.svg', ''))} · SVG</a>`);
