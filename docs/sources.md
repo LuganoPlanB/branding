@@ -36,3 +36,9 @@ The web font contains upright weights 100–900. Desktop slides use static Inter
 ## Updating
 
 With the recorded sibling repositories available, review upstream changes and run `npm run extract`. Inspect the token diff and original asset hashes. The extractor records files already present in this repository; it does not silently replace logos. Copy approved upstream logo changes explicitly, then regenerate provenance. Run `npm test` and `npm run build`, review light/dark and mobile rendering, and commit the complete change together.
+
+## Project identity: Bitcoin Roots
+
+The [Bitcoin Roots website](https://plan-b.foundation/bitcoin-roots/) identifies the project and serves its Lottie animation. Project artwork is imported from [LuganoPlanB/bitcoin-roots at ebdc72c](https://github.com/LuganoPlanB/bitcoin-roots/tree/ebdc72c0cd25603ddc89026faef9fc7bf5d6a538): `src/qt/res/src/bitcoinroots-logo.svg` and `doc/website/content/public/bitcoin-roots.lottie.json`. The animation matched the live website when retrieved on 2026-10-18.
+
+The original SVG and animation are unchanged. Black and white SVGs replace only the original #F57C00 fill, as requested for this guide. Geometry, transforms and view box remain intact. Exact paths, source links, transformations and hashes are recorded in `assets/projects/bitcoin-roots/manifest.json`. These are project assets, not replacements for the Foundation identity or global palette.

@@ -8,6 +8,10 @@ assert.equal(tokens.schemaVersion, 1);
 for (const file of Object.values(manifest.resources)) await access(file);
 for (const token of Object.values(manifest.roles)) assert.ok(tokens.light[token], `Missing semantic token ${token}`);
 for (const asset of provenance.assets) assert.equal(createHash('sha256').update(await readFile(asset.path)).digest('hex'), asset.sha256, `Original asset changed: ${asset.path}`);
+for (const project of manifest.projects ?? []) {
+  const record = JSON.parse(await readFile(project.manifest, 'utf8'));
+  for (const asset of record.assets) assert.equal(createHash('sha256').update(await readFile(asset.path)).digest('hex'), asset.sha256, `Project asset changed: ${asset.path}`);
+}
 const css = await readFile('tokens/tokens.css', 'utf8');
 for (const mode of ['light', 'dark']) for (const [key, value] of Object.entries(tokens[mode])) assert.ok(css.includes(`${key}: ${value};`), `CSS/JSON mismatch: ${key}`);
 function luminance(hex) { return hex.slice(1).match(/../g).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0); }

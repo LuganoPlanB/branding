@@ -114,6 +114,8 @@ The reference is predominantly flat: pale tonal fields, restrained dividers and 
 
 Gently rounded cards and panels use the frontmatter geometry; compact actions use pill corners. Dot and short-band SVGs are new reusable expressions of existing theme geometry, not official logos. Keep their use sparse.
 
+Project identities use fixed preview grounds independent of the page theme. Bitcoin Roots previews show the original orange, a black variant on warm white and a white variant on charcoal. Project colors stay separate from the Foundation token palette. The Lottie source is a download; the guide does not autoplay it.
+
 ## Components
 
 Primary actions pair semantic strong-accent backgrounds with canvas text, pill corners and a 44px minimum height. Hover adds an underline and slightly reduces brightness. Outline controls use the strong border and transparent background. Keyboard focus uses a 3px violet outline with a 5px offset.

@@ -12,6 +12,7 @@ Read docs/brand-brief.md first. Preserve the inherited identity and original SVG
 - [Layout CSS](tokens/layout.css): documented layout recommendations, separate from source-extracted tokens.
 - [Provenance](provenance.json): source revisions and original logo checksums.
 - [Source boundaries](docs/sources.md): authority, differences and downstream usage.
+- [Bitcoin Roots assets](assets/projects/bitcoin-roots/manifest.json): original orange SVG, black/white derivatives and original Lottie animation with pinned provenance. Project orange is #F57C00; keep it separate from Foundation tokens.
 - [Asset notes](assets/README.md): SVG usage and rights.
 - [Presentation guide](slides/README.md): editable slide template, usage and reproducible generator.
 - [Light PowerPoint starter](slides/planb-starter-light.pptx): ten examples, three SVG logo-library slides and eleven named layouts. Cover artwork is selectable, the larger gradient starts at the top, and shared footer text is editable once on the parent Slide Master.

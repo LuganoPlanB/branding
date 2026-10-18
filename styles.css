@@ -7,3 +7,11 @@
 .caption,figcaption span,.hero-note{font-size:.875rem}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 @media print{.site-header nav,button,#status,.skip{display:none!important}.section{break-inside:avoid}.wrap{width:100%}body{background:white;color:#030b20}}
+
+/* Project artwork has fixed preview grounds, independent of the page theme. */
+.project-intro{align-items:start;margin-bottom:24px}
+.project-logos{grid-template-columns:repeat(3,minmax(0,1fr))}
+.project-logo-stage{height:250px;display:flex;align-items:center;justify-content:center;background:#fffefa;border:1px solid #dceaf6;border-radius:16px;padding:24px}
+.project-logo-stage-dark{background:#171717;border-color:#494040}
+.project-logo-stage img{width:180px;height:180px;max-width:100%;object-fit:contain}
+@media(max-width:640px){.project-logos{grid-template-columns:1fr}nav{flex-wrap:wrap;row-gap:8px}}

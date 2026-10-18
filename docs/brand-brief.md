@@ -18,6 +18,8 @@ Layout recommendations: 1180px content container, 56px section rhythm, 16px grid
 
 Vectors: use the supplied original SVGs without recoloring, stretching, cropping or effects. Preserve view boxes. Select dark grounds for both color and white variants: the color originals also have white lettering. Black variants belong on light grounds. Filenames are not a substitute for inspecting the artwork: some black variants retain orange, and the wide white logo has different bounds. Lugano's Plan ₿ marks are existing identity assets, not a new Foundation logo. Partner marks must not imply endorsement. Respect existing asset rights.
 
+Projects: Bitcoin Roots is the first project identity in this guide. Its orange is #F57C00, separate from Foundation tokens. Use the original orange SVG, black on light backgrounds or white on dark backgrounds. Black/white variants change fill only. The original Lottie JSON is supplied with a static SVG fallback recommendation for reduced motion. See assets/projects/bitcoin-roots/manifest.json for sources, hashes and transformations.
+
 Imagery: show real Lugano, civic spaces, infrastructure, workshops and people learning or making. Prefer natural light and truthful context. Avoid floating coins, anonymous server rooms, hooded hackers and luxury crypto imagery.
 
 Voice: active, direct and concrete. Explain the public consequence before the technical term. Invite learning, testing, questioning and contribution. Do not invent impact metrics, testimonials, affiliations or claims.

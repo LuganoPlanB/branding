@@ -23,7 +23,8 @@
     "slidePreviewLight": "slides/planb-preview-light.pdf",
     "slideStarterDark": "slides/planb-starter-dark.pptx",
     "slideTemplateDark": "slides/planb-template-dark.potx",
-    "slidePreviewDark": "slides/planb-preview-dark.pdf"
+    "slidePreviewDark": "slides/planb-preview-dark.pdf",
+    "bitcoinRootsAssets": "assets/projects/bitcoin-roots/manifest.json"
   },
   "roles": {
     "canvas": "--planb-color-canvas",
@@ -40,6 +41,16 @@
     "Do not imply partner endorsement or invent Foundation claims.",
     "Honor keyboard access, visible focus and reduced motion."
   ],
-  "newGeometry": ["assets/shapes/signal.svg", "assets/shapes/energy-band.svg"],
-  "rights": "Original assets retain existing rights; no new blanket trademark or third-party license is granted."
+  "newGeometry": [
+    "assets/shapes/signal.svg",
+    "assets/shapes/energy-band.svg"
+  ],
+  "rights": "Original assets retain existing rights; no new blanket trademark or third-party license is granted.",
+  "projects": [
+    {
+      "name": "Bitcoin Roots",
+      "website": "https://plan-b.foundation/bitcoin-roots/",
+      "manifest": "assets/projects/bitcoin-roots/manifest.json"
+    }
+  ]
 }
