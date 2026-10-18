@@ -17,6 +17,16 @@ for filename,kind in [('planb-starter.pptx','presentation'),('planb-template.pot
         assert len(slides)==10 and len(layouts)==11
         for layout in layouts:
             tree=ET.fromstring(z.read(layout)); assert tree.find('p:cSld',ns).get('name').startswith('Plan B / ')
+            assert tree.get('showMasterSp')=='1','Layout artwork must remain visible'
+        for slide in slides:
+            tree=ET.fromstring(z.read(slide))
+            assert tree.get('showMasterSp')=='1','Slide must display inherited artwork'
+            for shape in tree.findall('.//p:sp',ns):
+                for p in shape.findall('p:txBody/a:p',ns):
+                    if p.find('a:r',ns) is not None:
+                        props=p.find('a:pPr',ns)
+                        assert props is not None and props.get('algn')=='l','Explicit left alignment required'
+                        assert props.find('a:buNone',ns) is not None,'Default bullets must be disabled'
         assert any(n.startswith('ppt/charts/chart') and n.endswith('.xml') for n in names)
         assert any(n.startswith('ppt/embeddings/') and n.endswith('.xlsx') for n in names)
         assert any(b'<a:tbl>' in z.read(n) for n in slides)

@@ -41,6 +41,7 @@ def rgb(color): return RGBColor.from_string(C.get(color,color))
 def rect(s,x,y,w,h,color,radius=False):
     sh=s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE if radius else MSO_SHAPE.RECTANGLE, Inches(x), Inches(y), Inches(w), Inches(h))
     sh.fill.solid(); sh.fill.fore_color.rgb=rgb(color); sh.line.fill.background()
+    sh._element.spPr.append(OxmlElement('a:effectLst'))
     if radius: sh.adjustments[0]=.12
     return sh
 
@@ -152,7 +153,7 @@ s=new(4,'Image and story')
 heading(s,'[Make the place visible]')
 rect(s,.65,2,7.35,4.25,'cool',True)
 text(s,'Insert a documentary photograph',1,3.1,6.6,1.15,26,'navy',True)
-text(s,'[Insert a documentary photograph]',1,3.1,6.6,1.15,26,'navy',True,('pic',1))
+text(s,'[Insert a documentary photograph]',.65,2,7.35,4.25,26,'navy',True,('pic',1))
 text(s,'[What should we notice?]',8.5,2.2,4.1,1.1,27,'navy',True,('body',2))
 text(s,'[Connect the image to the public purpose. Use real Lugano, civic spaces, workshops or people making and learning.]',8.5,3.55,4.1,2.6,22,'ink',False,('body',3))
 text(s,'[Photo credit / source / permission]',.7,6.4,11.5,.35,12,'ink',False,('body',4))
