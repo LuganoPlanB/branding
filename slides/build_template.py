@@ -105,7 +105,7 @@ def logo(s,x,y,w,variant='white',form='wide',h=None):
             pic.width=int(pic.width*Inches(h)/pic.height); pic.height=Inches(h)
         pic.left=Inches(x)+(Inches(w)-pic.width)//2
         pic.top=Inches(y)+(Inches(h)-pic.height)//2
-    pic.name=f'Logo / {form.title()} / {variant.title()} (SVG)' 
+    pic.name=f'Logo / {form.title()} / {variant.title()} (SVG)'
     pic._element.xpath('.//p:cNvPr')[0].set('descr',"Lugano's Plan B original logo; existing mark, not a new Foundation logo")
     key=(form,variant)
     if key not in logo_parts:

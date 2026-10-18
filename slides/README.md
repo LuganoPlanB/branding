@@ -1,6 +1,6 @@
 # Plan B presentation template
 
-Choose a complete **light** or **dark** edition. Each starter has ten editable example slides; each PPTX and POTX contains eleven matching Plan B layouts in the New Slide / Layout menu. Every layout includes a native gradient band, with larger gradient accents on the cover, section divider and quotation.
+Choose a complete **light** or **dark** edition. Each starter has ten editable example slides plus three copyable vector-logo library slides; each PPTX and POTX contains eleven matching Plan B layouts in the New Slide / Layout menu. Every layout includes a native gradient band, with larger gradient accents on the cover, section divider and quotation.
 
 | Edition | Editable starter | Reusable template | Rendered preview |
 | --- | --- | --- | --- |
@@ -13,10 +13,27 @@ Use the POTX to create a fresh presentation. PDF previews are LibreOffice render
 
 1. Install `fonts/Inter-Regular.ttf` and `fonts/Inter-Bold.ttf`, then restart your presentation app. The fonts are licensed under the bundled SIL Open Font License.
 2. Open the PPTX and save a copy with your project's name, or open the POTX to start a new presentation.
-3. Replace bracketed prompts. Remove unused examples and the final template-guide slide.
-4. Use **Home → New Slide / Layout** for a branded layout. The geometry belongs to slide layouts; text placeholders remain editable.
+3. Replace bracketed prompts. Remove unused examples, the template-guide slide and the three logo-library slides.
+4. Use **Home → New Slide / Layout** for a branded layout. Content layouts supply reusable geometry and editable text placeholders. Duplicate the supplied cover to retain its movable artwork; New Slide creates its content layout without those slide-level objects.
 5. To preserve the styled chart or table, duplicate its example slide. In PowerPoint, use **Chart Design → Edit Data** to replace the synthetic chart values.
 6. Check every slide after importing into Keynote or LibreOffice. PowerPoint, Keynote and LibreOffice do not render every Office feature identically.
+
+## Edit the cover, logos and gradients
+
+The cover's right-side panel, SVG logo, values text and large gradient are **separate selectable objects in normal slide view**. Click the words to edit them. Drag the large gradient from its default position at the top of the right panel, resize it or change its stops with **Format Shape → Gradient fill**. It is a native vector shape, not an image. If objects overlap, use **Home → Select → Selection Pane** and choose `Cover / Movable gradient`, `Cover / Editable values`, `Cover / Background panel` or the named logo.
+
+**Duplicate the supplied cover** when creating another cover: its movable artwork belongs to that slide. This avoids putting it back into an unselectable background. The small gradient band shared by a layout remains editable in **View → Slide Master → select that layout**.
+
+The final three library slides offer **wide, square and tall** logos in **color, black and white** (nine choices). Select only the logo, copy it and paste it onto any slide. Each is an original embedded SVG with a PNG fallback for older viewers; resize proportionally. Use dark grounds for color/white logos and light grounds for black logos. The logo's own lettering stays part of the original artwork; the cover's separate values text is editable. Delete the library slides before presenting.
+
+## Edit the footer once for every slide
+
+1. In desktop PowerPoint, open **View → Slide Master**.
+2. Select the **top, larger parent master thumbnail**, above the eleven smaller layouts.
+3. Edit the two bottom text boxes: **Plan B Foundation** and **Civic Digital Commons**. Their Selection Pane names are `Shared footer / Organization` and `Shared footer / Tagline`.
+4. Choose **Close Master View**. Every slide using this master inherits the new wording, including the cover and library slides.
+
+These are ordinary master text boxes, so use Slide Master rather than Insert → Header & Footer. The footer is no longer copied separately into each layout. In LibreOffice Impress, use **View → Master Slide** to edit the same shared text; check the result in your presentation app after import.
 
 ## Fonts: Inter and fallbacks
 
@@ -52,7 +69,7 @@ Native gradient shapes use the exact Network Energy stops from each theme: light
 
 PowerPoint's theme contains the brand palette and Inter as both major and minor font. New shapes and charts can use Theme Colors. A theme is not a contrast checker: keep ordinary text navy/ink on light backgrounds, or warm white on navy. Avoid sky-blue text on white.
 
-The cover uses the original Lugano's Plan ₿ SVG with a high-resolution PNG fallback for older software. The original SVG remains embedded; it is not redrawn or recolored. It is an existing Lugano's Plan ₿ mark, not a newly designed Foundation logo. Other partners' marks are deliberately absent. Respect the asset notes and original rights.
+The cover and logo libraries use the original Lugano's Plan ₿ SVGs with a high-resolution PNG fallback for older software. The original SVGs remain embedded; it is not redrawn or recolored. It is an existing Lugano's Plan ₿ mark, not a newly designed Foundation logo. Other partners' marks are deliberately absent. Respect the asset notes and original rights.
 
 PowerPoint-specific rendering has not been manually inspected; consult the generated preview and review your final export in the app you will present from.
 

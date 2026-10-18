@@ -14,7 +14,7 @@ Read docs/brand-brief.md first. Preserve the inherited identity and original SVG
 - [Source boundaries](docs/sources.md): authority, differences and downstream usage.
 - [Asset notes](assets/README.md): SVG usage and rights.
 - [Presentation guide](slides/README.md): editable slide template, usage and reproducible generator.
-- [Light PowerPoint starter](slides/planb-starter-light.pptx): ten editable slides and eleven named layouts, all with native gradient accents.
+- [Light PowerPoint starter](slides/planb-starter-light.pptx): ten examples, three SVG logo-library slides and eleven named layouts. Cover artwork is selectable, the larger gradient starts at the top, and shared footer text is editable once on the parent Slide Master.
 - [Dark PowerPoint starter](slides/planb-starter-dark.pptx): complete charcoal/white edition with theme-matched gradients, charts and tables.
 - [Light template](slides/planb-template-light.potx) and [dark template](slides/planb-template-dark.potx): reusable 16:9 templates with Plan B theme colors and Inter.
 - [Light preview](slides/planb-preview-light.pdf) and [dark preview](slides/planb-preview-dark.pdf): rendered examples.
