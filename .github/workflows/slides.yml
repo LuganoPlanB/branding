@@ -1,0 +1,43 @@
+name: Validate slide template
+on:
+  push:
+    branches: [main]
+    paths: ['slides/**', '.github/workflows/slides.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate editable Office packages
+        run: python slides/check_template.py
+      - name: Install renderer and fonts
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libreoffice-impress poppler-utils
+          mkdir -p "$HOME/.local/share/fonts/planb"
+          cp slides/fonts/Inter-Regular.ttf slides/fonts/Inter-Bold.ttf "$HOME/.local/share/fonts/planb/"
+          fc-cache -f
+      - name: Render starter and template
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p rendered/template
+          libreoffice -env:UserInstallation=file:///tmp/planb-office --headless --convert-to pdf --outdir rendered slides/planb-starter.pptx
+          libreoffice -env:UserInstallation=file:///tmp/planb-office --headless --convert-to pdf --outdir rendered/template slides/planb-template.potx
+          test -s rendered/planb-starter.pdf
+          test -s rendered/template/planb-template.pdf
+          pdfinfo rendered/planb-starter.pdf
+          pdftoppm -scale-to 1280 -png rendered/planb-starter.pdf rendered/slide
+          pdftotext -layout rendered/planb-starter.pdf rendered/text.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: planb-slides-preview
+          path: rendered/
