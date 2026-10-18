@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process';
 const escape = value => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist/downloads', { recursive: true });
-for (const file of ['assets', 'tokens', 'docs', 'DESIGN.md', 'styles.css', 'theme.js', 'app.js', 'brand.json', 'llms.txt', 'provenance.json']) await cp(file, `dist/${file}`, { recursive: true });
+for (const file of ['assets', 'tokens', 'docs', 'slides', 'DESIGN.md', 'styles.css', 'theme.js', 'app.js', 'brand.json', 'llms.txt', 'provenance.json']) await cp(file, `dist/${file}`, { recursive: true, filter: path => !path.includes('__pycache__') });
 let html = await readFile('index.html', 'utf8');
 const links = [];
 for (const directory of ['logos', 'shapes']) for (const name of (await readdir(`assets/${directory}`)).sort()) {
@@ -12,5 +12,5 @@ for (const directory of ['logos', 'shapes']) for (const name of (await readdir(`
 html = html.replace('<!-- ASSET_LINKS -->', links.join('\n')).replace('<!-- MAKER_BRIEF -->', escape(await readFile('docs/brand-brief.md', 'utf8')));
 await writeFile('dist/index.html', html);
 await writeFile('dist/.nojekyll', '');
-execFileSync('python3', ['-c', 'import pathlib,zipfile; root=pathlib.Path("dist"); files=[p for d in ["assets","tokens","docs"] for p in (root/d).rglob("*") if p.is_file()]+[root/n for n in ["brand.json","llms.txt","provenance.json","DESIGN.md"]]; z=zipfile.ZipFile(root/"downloads/planb-brand-kit.zip","w",zipfile.ZIP_DEFLATED); [z.write(p,p.relative_to(root)) for p in sorted(files)]; z.close()']);
+execFileSync('python3', ['-c', 'import pathlib,zipfile; root=pathlib.Path("dist"); files=[p for d in ["assets","tokens","docs","slides"] for p in (root/d).rglob("*") if p.is_file()]+[root/n for n in ["brand.json","llms.txt","provenance.json","DESIGN.md"]]; z=zipfile.ZipFile(root/"downloads/planb-brand-kit.zip","w",zipfile.ZIP_DEFLATED); [z.write(p,p.relative_to(root)) for p in sorted(files)]; z.close(); z=zipfile.ZipFile(root/"downloads/planb-slides.zip","w",zipfile.ZIP_DEFLATED); [z.write(p,p.relative_to(root/"slides")) for p in sorted((root/"slides").rglob("*")) if p.is_file()]; z.close()']);
 console.log('Built static guide and downloadable brand kit in dist/.');

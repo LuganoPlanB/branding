@@ -13,5 +13,8 @@ Read docs/brand-brief.md first. Preserve the inherited identity and original SVG
 - [Provenance](provenance.json): source revisions and original logo checksums.
 - [Source boundaries](docs/sources.md): authority, differences and downstream usage.
 - [Asset notes](assets/README.md): SVG usage and rights.
+- [Presentation guide](slides/README.md): editable slide template, usage and reproducible generator.
+- [PowerPoint starter](slides/planb-starter.pptx): ten editable slides and eleven named layouts.
+- [PowerPoint template](slides/planb-template.potx): reusable 16:9 template with Plan B theme colors and Inter.
 
 For new UI, start with the brief, import both CSS files, and use semantic custom properties. Treat the theme's existing component API as a separate dependency. Inspect original artwork before choosing a logo variant.

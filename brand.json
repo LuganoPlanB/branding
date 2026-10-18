@@ -13,7 +13,11 @@
     "css": "tokens/tokens.css",
     "layout": "tokens/layout.css",
     "provenance": "provenance.json",
-    "assetNotes": "assets/README.md"
+    "assetNotes": "assets/README.md",
+    "slideGuide": "slides/README.md",
+    "slideStarter": "slides/planb-starter.pptx",
+    "slideTemplate": "slides/planb-template.potx",
+    "slidePreview": "slides/planb-preview.pdf"
   },
   "roles": {
     "canvas": "--planb-color-canvas",

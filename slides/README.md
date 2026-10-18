@@ -2,6 +2,8 @@
 
 Start with **planb-starter.pptx**. It contains ten example slides you can edit immediately. Use **planb-template.potx** when you want PowerPoint to create a fresh presentation from the reusable template. Both contain eleven named Plan B layouts in the New Slide / Layout menu.
 
+Open **planb-preview.pdf** for a quick visual overview. It is a LibreOffice rendering of the starter, not a replacement for the editable files.
+
 ## First use
 
 1. Install `fonts/Inter-Regular.ttf` and `fonts/Inter-Bold.ttf`, then restart your presentation app. The fonts are licensed under the bundled SIL Open Font License.
@@ -42,6 +44,8 @@ Fonts are supplied rather than embedded in the Office files. Without installatio
 ## Maintainers and models
 
 Read `../docs/brand-brief.md` before changing the design. Edit the generator, not just the binaries, so future output remains reproducible. Use standard PowerPoint placeholders and editable objects; never flatten full slides into images. The generator reads the shared theme's token JSON.
+
+Regeneration requires a clone of the branding repository, not only the downloaded slide kit. Run the commands below from the repository root. After rendering, refresh `slides/planb-preview.pdf` from the CI artifact so it matches the delivered starter.
 
 ```sh
 python3 -m venv .venv
