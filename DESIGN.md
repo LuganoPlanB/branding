@@ -90,7 +90,11 @@ The fixed palette specimens continue to show source light colors when the surrou
 
 ## Typography
 
-Inter is self-hosted with its license; Segoe UI, Arial and sans-serif are fallbacks. Strong display and section headings use weight 800; titles and navigation use 700; body copy uses 400 with generous leading. System monospace distinguishes code and values.
+### Font family: Inter
+
+[Inter](https://rsms.me/inter/) is self-hosted as an upright Latin variable WOFF2 (weights 100–900), with its SIL Open Font License 1.1. The web fallback stack is "Inter", "Segoe UI", Arial, sans-serif. Strong display and section headings use ExtraBold 800; titles and navigation use Bold 700; body copy uses Regular 400 with generous leading. Code and values use Consolas, "SFMono-Regular", monospace. Use font-display: swap and check character coverage when adding languages; obtain true italic files separately when needed.
+
+Slide fonts use the supplied static Inter Regular (400) and Bold (700). Install both and restart the presentation app; fonts are not embedded in the PPTX/POTX. If installation is unavailable, explicitly replace Inter throughout with Segoe UI or Arial and inspect wrapping and overflow. Presentation apps do not use CSS fallback stacks.
 
 The frontmatter records the implemented desktop display and section hierarchy. Display type steps to 3.3rem at 900px and 3rem at 640px. Ordinary paragraphs stop at 70ch; introductory copy is tighter at 48ch. Prefer solid-color headings; the legacy heading gradient is presented as a surface specimen.
 

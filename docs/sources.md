@@ -25,9 +25,13 @@ Exact inspected commits and clean/dirty state are in `../provenance.json`. These
 
 The standalone webpage, download kit, model manifest and reusable dot/band SVGs consolidate the existing design language. The geometric assets are new expressions of existing CSS motifs; they are not official logos. Original logo SVGs remain byte-identical to their recorded sources.
 
-## Font
+## Font sources: Inter
+
+The primary font family is [Inter](https://rsms.me/inter/). The official website provides downloads, specimen details and language coverage. The bundled web subset does not include every variant or character available upstream.
 
 Inter Latin variable WOFF2 is self-hosted from Fontsource 5.2.8 (`https://cdn.jsdelivr.net/npm/@fontsource-variable/inter@5.2.8/files/inter-latin-wght-normal.woff2`). Its upstream SIL Open Font License is included at `assets/fonts/OFL.txt` (source: `https://github.com/rsms/inter/blob/master/LICENSE.txt`). The committed binary pins the actual downloaded font; future refreshes should be reviewed explicitly.
+
+The web font contains upright weights 100–900. Desktop slides use static Inter Regular (400) and Bold (700), generated at optical size 14 from the committed `slides/fonts/InterVariable.ttf`. Its source is `https://raw.githubusercontent.com/rsms/inter/master/docs/font-files/InterVariable.ttf`; the desktop license is included at `slides/fonts/OFL.txt`. See `slides/README.md` for installation and fallback guidance.
 
 ## Updating
 

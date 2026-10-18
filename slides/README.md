@@ -13,6 +13,14 @@ Open **planb-preview.pdf** for a quick visual overview. It is a LibreOffice rend
 5. To preserve the styled chart or table, duplicate its example slide. In PowerPoint, use **Chart Design → Edit Data** to replace the synthetic chart values.
 6. Check every slide after importing into Keynote or LibreOffice. PowerPoint, Keynote and LibreOffice do not render every Office feature identically.
 
+## Fonts: Inter and fallbacks
+
+[Inter](https://rsms.me/inter/) is the Plan B font family. Install the supplied [Inter Regular (400)](fonts/Inter-Regular.ttf) and [Inter Bold (700)](fonts/Inter-Bold.ttf), then restart your presentation app. These are the two weights used in the slides; the web guide also uses ExtraBold (800).
+
+Fonts are supplied rather than embedded in the Office files. Without installation, the application substitutes a font and line breaks can change. If installation is not possible, replace Inter throughout the presentation with Segoe UI (if available) or Arial, then inspect every slide for wrapping and overflow. Presentation apps do not follow the website's CSS fallback stack.
+
+Inter is open source under the bundled [SIL Open Font License 1.1](fonts/OFL.txt). The supplied static fonts are upright Regular and Bold. For true italics or other font variants, use the [official Inter downloads](https://rsms.me/inter/) and check the characters your content needs. The variable source font is included for regeneration; ordinary slide editing only needs the two static fonts above.
+
 ## Included layouts
 
 | Layout | Use |
@@ -39,7 +47,7 @@ PowerPoint's theme contains the brand palette and Inter as both major and minor 
 
 The cover uses the original Lugano's Plan ₿ SVG with a high-resolution PNG fallback for older software. The original SVG remains embedded; it is not redrawn or recolored. It is an existing Lugano's Plan ₿ mark, not a newly designed Foundation logo. Other partners' marks are deliberately absent. Respect the asset notes and original rights.
 
-Fonts are supplied rather than embedded in the Office files. Without installation, the application substitutes a font and line breaks can change. PowerPoint-specific rendering has not been manually inspected; consult the generated preview and review your final export in the app you will present from.
+PowerPoint-specific rendering has not been manually inspected; consult the generated preview and review your final export in the app you will present from.
 
 ## Maintainers and models
 

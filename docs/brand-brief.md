@@ -8,7 +8,9 @@ Network energy: linear-gradient(90deg, #ffb604 0%, #ff5db1 28%, #7468ff 58%, #23
 
 Dark mode is an optional alternative: canvas #171717, panel #211d1d, white text, Civic Coral #e15364 and Bitcoin Orange #f7931a. Cyan, violet and pink stay constant. Use the dark gradient values from tokens/tokens.json; their stops differ from light mode.
 
-Typography: Inter, with Segoe UI, Arial and sans-serif fallbacks. Display and headings 800; titles and navigation 700; body 400 with 1.6 line-height. Keep body measure around 65–75 characters. Monospace is for code and values.
+Fonts: Inter (https://rsms.me/inter/) is the primary family. Web fallback stack: "Inter", "Segoe UI", Arial, sans-serif. Display and headings use ExtraBold 800; titles and navigation Bold 700; body Regular 400 with 1.6 line-height. Keep body measure around 65–75 characters. Code uses Consolas, "SFMono-Regular", monospace. The self-hosted web WOFF2 is an upright Latin subset with weights 100–900 and font-display: swap; check language coverage and obtain true italics separately when needed. Inter uses the bundled SIL Open Font License 1.1.
+
+Slide fonts: install the supplied static Inter Regular (400) and Bold (700), then restart the presentation app. Fonts are not embedded in the PPTX/POTX. If Inter cannot be installed, explicitly replace it throughout the deck with Segoe UI or Arial and review line breaks and overflow; Office does not use CSS fallback stacks.
 
 Layout recommendations: 1180px content container, 56px section rhythm, 16px grid gaps, 12px card and 16px panel corners. Controls are at least 44px high. Leave open edges. Let meaningful groups determine surfaces; do not turn every paragraph into a card. Data-heavy applications may need wider layouts.
 

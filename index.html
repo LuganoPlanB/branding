@@ -17,7 +17,7 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header wrap">
   <a class="brand" href="#main">Plan B<span>Brand & design system</span></a>
-  <nav aria-label="Main navigation"><a href="#color">Color</a><a href="#vectors">Vectors</a><a href="#resources">For makers</a></nav>
+  <nav aria-label="Main navigation"><a href="#color">Color</a><a href="#type">Fonts</a><a href="#vectors">Vectors</a><a href="#resources">For makers</a></nav>
   <button id="theme-toggle" type="button" aria-pressed="false" hidden>Dark mode</button>
 </header>
 <main id="main">
@@ -51,9 +51,11 @@
   </section>
 
   <section id="type" class="section wrap" aria-labelledby="type-title">
-    <div class="section-intro"><h2 id="type-title">Weight before ornament.</h2><p>One family, clear hierarchy. Inter carries the conversation from a public invitation to technical documentation.</p></div>
-    <div class="type-specimen"><div><p class="type-display">Make room<br>for possibility.</p><p class="caption">Inter · 800 · compact display leading</p></div><div class="type-scale"><p class="type-alphabet">Aa Bb Cc<br>0123456789</p><dl><div><dt>Headings</dt><dd>800 / 1.08–1.12</dd></div><div><dt>Titles & navigation</dt><dd>700 / 1.2</dd></div><div><dt>Body</dt><dd>400 / 1.6</dd></div><div><dt>Code & values</dt><dd>System monospace</dd></div></dl></div></div>
-    <p class="caption">Inter is self-hosted with its license. Keep body lines around 65–75 characters. Use plain, concrete language: explain the civic consequence before the technical term.</p>
+    <div class="section-intro"><h2 id="type-title">Font family: Inter.</h2><p><a href="https://rsms.me/inter/">Inter</a> is our primary sans-serif font for headings, body text and slides. One family, with weight and spacing creating a clear hierarchy.</p></div>
+    <div class="type-specimen"><div><p class="type-display">Make room<br>for possibility.</p><p class="caption">Inter ExtraBold · font weight 800</p></div><div class="type-scale"><p class="type-alphabet">Aa Bb Cc<br>0123456789</p><dl><div><dt>Headings</dt><dd>ExtraBold 800 · 1.08–1.12</dd></div><div><dt>Titles & navigation</dt><dd>Bold 700 · 1.2</dd></div><div><dt>Body</dt><dd>Regular 400 · 1.6</dd></div><div><dt>Code & values</dt><dd>System monospace</dd></div></dl></div></div>
+    <p class="caption">Web font weights and line heights are shown above. Line height is a multiplier of font size. Keep body lines around 65–75 characters.</p>
+    <div class="split details-row"><div><h3>Web fonts.</h3><p>The guide self-hosts <a href="assets/fonts/inter-latin.woff2" download>Inter variable WOFF2</a>: upright styles, weights 100–900, Latin subset. No external font request is needed. Use 400, 700 and 800 for the hierarchy above. <code>font-display: swap</code> keeps text visible while Inter loads.</p></div><div><h3>Slide & desktop fonts.</h3><p>Install <a href="slides/fonts/Inter-Regular.ttf" download>Inter Regular (400)</a> and <a href="slides/fonts/Inter-Bold.ttf" download>Inter Bold (700)</a>, then restart your presentation app. The slide template uses these two weights. Fonts are supplied in the kit, but are not embedded in the PPTX or POTX.</p></div></div>
+    <div class="split details-row"><div><h3>Fallback fonts.</h3><p>On the web, use <code>"Inter", "Segoe UI", Arial, sans-serif</code>; the browser selects the first available font. Code uses <code>Consolas, "SFMono-Regular", monospace</code>. Presentation apps do not use this CSS stack: if Inter cannot be installed, replace it throughout the deck with Segoe UI or Arial, then check every line break and text box.</p></div><div><h3>Font coverage & license.</h3><p>Inter is open source under the <a href="assets/fonts/OFL.txt">SIL Open Font License 1.1</a>, included with the files. The web kit contains no italic font. For true italics or additional language coverage, get the appropriate files from the <a href="https://rsms.me/inter/">official Inter website</a> and check the characters your content needs.</p></div></div>
   </section>
 
   <section id="shape" class="section wrap" aria-labelledby="shape-title">
