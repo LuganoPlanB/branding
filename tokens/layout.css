@@ -1,0 +1,13 @@
+/* Layout recommendations from vite-theme/DESIGN.md, separate from extracted theme CSS. */
+:root {
+  --planb-width-content: 1180px;
+  --planb-space-section: 56px;
+  --planb-space-grid: 16px;
+  --planb-space-panel: 28px;
+  --planb-radius-card: 12px;
+  --planb-radius-panel: 16px;
+  --planb-radius-pill: 999px;
+  --planb-control-min: 44px;
+  --planb-leading-body: 1.6;
+  --planb-font-display: clamp(3rem, 6vw, 4.75rem);
+}

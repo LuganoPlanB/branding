@@ -1,0 +1,1 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 24"><title>Plan B network energy band</title><defs><linearGradient id="energy"><stop stop-color="#ffb604"/><stop offset=".28" stop-color="#ff5db1"/><stop offset=".58" stop-color="#7468ff"/><stop offset="1" stop-color="#23f5ff"/></linearGradient></defs><rect width="320" height="24" rx="12" fill="url(#energy)"/></svg>

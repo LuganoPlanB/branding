@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-18T16:46:35.594295+00:00",
+  "title": "Design System: Plan B",
+  "extensions": {
+    "colorMeta": {
+      "canvas": {
+        "displayName": "Canvas",
+        "role": "neutral"
+      },
+      "canvas-alt": {
+        "displayName": "Canvas Alt",
+        "role": "neutral"
+      },
+      "panel": {
+        "displayName": "Panel",
+        "role": "neutral"
+      },
+      "panel-strong": {
+        "displayName": "Panel Strong",
+        "role": "neutral"
+      },
+      "text": {
+        "displayName": "Text",
+        "role": "neutral"
+      },
+      "text-soft": {
+        "displayName": "Text Soft",
+        "role": "neutral"
+      },
+      "accent": {
+        "displayName": "Accent",
+        "role": "primary"
+      },
+      "accent-soft": {
+        "displayName": "Accent Soft",
+        "role": "neutral"
+      },
+      "accent-strong": {
+        "displayName": "Accent Strong",
+        "role": "primary"
+      },
+      "highlight": {
+        "displayName": "Highlight",
+        "role": "secondary"
+      },
+      "neon-cyan": {
+        "displayName": "Neon Cyan",
+        "role": "secondary"
+      },
+      "neon-violet": {
+        "displayName": "Neon Violet",
+        "role": "secondary"
+      },
+      "neon-pink": {
+        "displayName": "Neon Pink",
+        "role": "secondary"
+      },
+      "brand-night": {
+        "displayName": "Brand Night",
+        "role": "primary"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Editorial introduction; responsive sizes in DESIGN.md."
+      }
+    },
+    "shadows": [
+      {
+        "name": "panel-light",
+        "value": "0 18px 44px rgba(8, 41, 82, 0.08),\n    0 1px 0 rgba(255, 255, 255, 0.84) inset",
+        "purpose": "Extracted theme capability; not applied to the reference application panel."
+      },
+      {
+        "name": "panel-dark",
+        "value": "0 22px 56px rgba(0, 0, 0, 0.28)",
+        "purpose": "Extracted dark theme capability."
+      }
+    ],
+    "motion": [
+      {
+        "name": "logo-stage",
+        "value": "background-color .2s ease",
+        "purpose": "Logo preview ground; disabled under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact",
+        "value": "900px"
+      },
+      {
+        "name": "mobile",
+        "value": "640px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Semantic primary action, including dark-mode colors.",
+      "html": "<a class=\"ds-primary\" href=\"#resources\">Use the brand kit</a>",
+      "css": ".ds-primary{font-family:var(--planb-font-family);line-height:1.6;display:inline-flex;align-items:center;min-height:44px;padding:12px 22px;border-radius:var(--planb-radius-pill);background:var(--planb-color-accent-strong);color:var(--planb-color-canvas);text-decoration:none;font-size:.9rem;font-weight:700}.ds-primary:hover{filter:brightness(.93);text-decoration:underline}.ds-primary:focus-visible{outline:3px solid var(--planb-color-focus);outline-offset:5px}"
+    },
+    {
+      "name": "Outline control",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Theme, variant and copy controls.",
+      "html": "<button class=\"ds-outline\" type=\"button\">Copy CSS</button>",
+      "css": ".ds-outline{font-family:var(--planb-font-family);line-height:1.6;min-height:44px;border:var(--planb-border-strong);border-radius:var(--planb-radius-pill);padding:8px 16px;background:transparent;color:var(--planb-color-text);font-size:1rem;cursor:pointer}.ds-outline:hover{text-decoration:underline}.ds-outline:focus-visible{outline:3px solid var(--planb-color-focus);outline-offset:5px}"
+    },
+    {
+      "name": "Text navigation",
+      "kind": "nav",
+      "description": "Compact section anchors with generous hit targets.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Reference\"><a href=\"#color\">Color</a><a href=\"#vectors\">Vectors</a><a href=\"#resources\">For makers</a></nav>",
+      "css": ".ds-nav{font-family:var(--planb-font-family);line-height:1.6;display:flex;flex-wrap:wrap;gap:24px}.ds-nav a{display:flex;align-items:center;min-height:44px;font-size:.88rem;font-weight:700;text-decoration:none;color:var(--planb-color-accent-strong)}.ds-nav a:hover{text-decoration:underline}.ds-nav a:focus-visible{outline:3px solid var(--planb-color-focus);outline-offset:5px}"
+    },
+    {
+      "name": "Source palette swatch",
+      "kind": "button",
+      "description": "Fixed light-palette specimen; preview only, without clipboard behavior.",
+      "html": "<button class=\"ds-swatch\" type=\"button\"><span>Civic Sky<small>Structure &amp; interaction</small></span><code>#4F97E9</code></button>",
+      "css": ".ds-swatch{font-family:var(--planb-font-family);line-height:1.6;background:#4f97e9;color:#030b20;border:0;border-radius:0;padding:24px;text-align:left;min-height:220px;display:flex;flex-direction:column;justify-content:space-between;gap:40px;cursor:pointer}.ds-swatch span{font-size:1rem;font-weight:700}.ds-swatch small{display:block;font-size:.76rem;font-weight:400;margin-top:8px}.ds-swatch code{font-family:Consolas,SFMono-Regular,monospace;font-size:.85rem}.ds-swatch:hover{outline:2px solid currentColor;outline-offset:-8px}.ds-swatch:focus-visible{outline:3px solid var(--planb-color-focus);outline-offset:5px}"
+    },
+    {
+      "name": "Application panel",
+      "kind": "card",
+      "refersTo": "application-panel",
+      "description": "Quiet tonal group for a practical example; no shadow.",
+      "html": "<section class=\"ds-panel\"><h3>Technology for the commons.</h3><p>Learn, test, question and contribute.</p></section>",
+      "css": ".ds-panel{font-family:var(--planb-font-family);line-height:1.6;padding:36px;background:var(--planb-color-panel-strong);color:var(--planb-color-text);border-radius:16px}.ds-panel h3{margin:0;color:var(--planb-color-accent-strong);font-size:1.2rem;line-height:1.25}.ds-panel p{max-width:70ch}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Civic Digital Commons",
+    "overview": "An open, capable, curious and grounded civic identity. Warm reading surfaces, strong Inter typography and restrained color make public technology approachable; a small electric gesture supplies energy. This is the inherited Civic Digital Commons, confirmed for code-first documentation, not a replacement identity.",
+    "keyCharacteristics": [
+      "Warm canvas and navy structure.",
+      "Weight before ornament; open sections before extra containers.",
+      "One coordinated energy signal, with accessible semantic alternatives."
+    ],
+    "rules": [
+      {
+        "name": "The One Signal Rule",
+        "body": "Choose gold or a gradient as the exceptional signal; keep text on a solid readable ground.",
+        "section": "colors"
+      },
+      {
+        "name": "The Intact Mark Rule",
+        "body": "Preserve original artwork and choose its ground: color and white variants on navy; black variants on pale canvas.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do preserve original SVG bytes, proportions and view boxes.",
+      "Do use navy grounds for color and white marks, and pale grounds for black marks.",
+      "Do retain visible keyboard focus and readable contrast in both themes.",
+      "Do distinguish extracted theme values from layout recommendations."
+    ],
+    "donts": [
+      "Don't recolor, crop, stretch or add effects to original marks.",
+      "Don't use Civic Sky as ordinary text on white.",
+      "Don't scatter every accent through a composition or set body copy over gradients.",
+      "Don't imply that Lugano’s Plan ₿ marks are a newly designed Foundation logo or that partner marks confer endorsement."
+    ]
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "extractedAt": "2026-10-18T16:35:05.568Z",
+  "tokenSource": "vite-theme/src/theme/theme.css",
+  "sources": [
+    {
+      "repository": "https://github.com/LuganoPlanB/vite-theme",
+      "commit": "78ef033a4abcc32bd4a7926b5cfcf34849fdb183",
+      "dirty": false
+    },
+    {
+      "repository": "https://github.com/LuganoPlanB/luganoplanb.github.io",
+      "commit": "963b3551db339b58aba6953c3aaa99f60e64cb53",
+      "dirty": false
+    },
+    {
+      "repository": "https://github.com/LuganoPlanB/ghost-theme",
+      "commit": "12632d2975de113bbab5fcdea1cfbac8173ae392",
+      "dirty": false
+    },
+    {
+      "repository": "https://github.com/LuganoPlanB/blog",
+      "commit": "9b17dca6b888e14a759473d06efa53cc5c30b269",
+      "dirty": false
+    },
+    {
+      "repository": "https://github.com/LuganoPlanB/tech-radar",
+      "commit": "f396df82b6bceb92d971008d563e1100d3985006",
+      "dirty": false
+    },
+    {
+      "repository": "https://github.com/LuganoPlanB/dove-vanno-soldi-ticino",
+      "commit": "cd148edc75c6ab3a0b604b9385f60cbb37e15bd9",
+      "dirty": false
+    },
+    {
+      "repository": "https://github.com/LuganoPlanB/lugano-eresidency",
+      "commit": "ea6d5a25c4d8876f8920e1d8a2a4d660c6059a02",
+      "dirty": false
+    },
+    {
+      "repository": "https://github.com/LuganoPlanB/LIPs",
+      "commit": "c3ea81f6f0210f05dea3f6f745b4b7fa6cddc826",
+      "dirty": false
+    },
+    {
+      "repository": "https://github.com/LuganoPlanB/red-team",
+      "commit": "9821ca576acb056a2315422a8140dac6c30c7559",
+      "dirty": false
+    }
+  ],
+  "assets": [
+    {
+      "path": "assets/logos/bitcoin.svg",
+      "source": "vite-theme/src/theme/assets/logos/bitcoin.svg",
+      "sha256": "2ae520cefab07d8a5250531fb907cf61559cde64621fc1eb7e59d7dd436d576d",
+      "viewBox": "0 0 288 61"
+    },
+    {
+      "path": "assets/logos/bitcoin_white.svg",
+      "source": "vite-theme/src/theme/assets/logos/bitcoin_white.svg",
+      "sha256": "d4d373e57efe4067236692f6def9ccb7d60169f7df6a61b657620d46b999e2b4",
+      "viewBox": "0 0 288 61"
+    },
+    {
+      "path": "assets/logos/fulgur.svg",
+      "source": "vite-theme/src/theme/assets/logos/fulgur.svg",
+      "sha256": "00f737412b3937373761ebe50f4eb030395b8773eafaec859dd643eec94d4810",
+      "viewBox": "0 0 800 322"
+    },
+    {
+      "path": "assets/logos/lugano_city.svg",
+      "source": "vite-theme/src/theme/assets/logos/lugano_city.svg",
+      "sha256": "b7670c4331a38712dd98c5aebe98381ed66e2f717841b6bc18f82b643e233b30",
+      "viewBox": "0 0 87 39"
+    },
+    {
+      "path": "assets/logos/lugano_planb_2026_logo_square_black.svg",
+      "source": "vite-theme/src/theme/assets/logos/lugano_planb_2026_logo_square_black.svg",
+      "sha256": "991dfa67d89c4254f4b1c90919c3f547dbee3ba33ec1ce7f1f629c161226553d",
+      "viewBox": "0 0 210 74"
+    },
+    {
+      "path": "assets/logos/lugano_planb_2026_logo_square_color.svg",
+      "source": "vite-theme/src/theme/assets/logos/lugano_planb_2026_logo_square_color.svg",
+      "sha256": "165c3693933ac2ee77783b6aa868c86fc070531d99eb3676a319caff4f1e4668",
+      "viewBox": "0 0 210 74"
+    },
+    {
+      "path": "assets/logos/lugano_planb_2026_logo_square_white.svg",
+      "source": "vite-theme/src/theme/assets/logos/lugano_planb_2026_logo_square_white.svg",
+      "sha256": "129335989a872ec2312738736e5a481404abdc56b72ba37ea8df5eb6361b31f0",
+      "viewBox": "0 0 210 74"
+    },
+    {
+      "path": "assets/logos/lugano_planb_2026_logo_tall_black.svg",
+      "source": "vite-theme/src/theme/assets/logos/lugano_planb_2026_logo_tall_black.svg",
+      "sha256": "782f0fe27fddcb59f84d648f051e477f9de81d0fd1a89600f9e3b73991f7c732",
+      "viewBox": "0 0 144 240"
+    },
+    {
+      "path": "assets/logos/lugano_planb_2026_logo_tall_color.svg",
+      "source": "vite-theme/src/theme/assets/logos/lugano_planb_2026_logo_tall_color.svg",
+      "sha256": "c4ce4a1366a286ed3c613ec751ef5fe04e63c82c9ddb1f24d6e01a3c3daad100",
+      "viewBox": "0 0 144 240"
+    },
+    {
+      "path": "assets/logos/lugano_planb_2026_logo_tall_white.svg",
+      "source": "vite-theme/src/theme/assets/logos/lugano_planb_2026_logo_tall_white.svg",
+      "sha256": "58425ba435d1d40e4397152ff42ef3fed05bc96730e0d1f44bc99936b7996020",
+      "viewBox": "0 0 144 240"
+    },
+    {
+      "path": "assets/logos/lugano_planb_2026_logo_wide_black.svg",
+      "source": "vite-theme/src/theme/assets/logos/lugano_planb_2026_logo_wide_black.svg",
+      "sha256": "ce11adb0a7a875dcdf6d8ee5fde7bc3b07ef4394cb25c982fe29864fbd2e0672",
+      "viewBox": "0 0 236 61"
+    },
+    {
+      "path": "assets/logos/lugano_planb_2026_logo_wide_color.svg",
+      "source": "vite-theme/src/theme/assets/logos/lugano_planb_2026_logo_wide_color.svg",
+      "sha256": "9accf804fbea61eb25662729810500adc9b18b68a1847062ef6f838991a9ecf7",
+      "viewBox": "0 0 236 61"
+    },
+    {
+      "path": "assets/logos/lugano_planb_2026_logo_wide_white.svg",
+      "source": "vite-theme/src/theme/assets/logos/lugano_planb_2026_logo_wide_white.svg",
+      "sha256": "153867af1ca01548afad4c2008cb03659ae95fb4cdfbb4ae140fea4e7dd68026",
+      "viewBox": "0 0 236 50"
+    },
+    {
+      "path": "assets/logos/tether.svg",
+      "source": "vite-theme/src/theme/assets/logos/tether.svg",
+      "sha256": "f47f438e6cbfe3e655b04cf99713b528dbc84bf7a2a7e0fd63f4612cc438f76f",
+      "viewBox": "0 0 92 21"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+# Plan B branding
+
+> The Civic Digital Commons: the shared Plan B design reference for people and models.
+
+Read docs/brand-brief.md first. Preserve the inherited identity and original SVGs. Do not invent brand claims or endorsements. The default expression is light; dark mode is optional.
+
+- [Maker brief](docs/brand-brief.md): audience, visual rules, voice, accessibility and asset boundaries.
+- [Design system](DESIGN.md): durable visual decisions recorded from the implemented reference.
+- [Brand manifest](brand.json): machine-readable roles and resource paths.
+- [Theme values](tokens/tokens.json): schemaVersion 1; light and dark maps of CSS custom properties to CSS strings. Resolve var() using the selected map with light fallback. This is not DTCG JSON.
+- [Theme CSS](tokens/tokens.css): import directly; dark mode uses data-theme="dark" on the root element.
+- [Layout CSS](tokens/layout.css): documented layout recommendations, separate from source-extracted tokens.
+- [Provenance](provenance.json): source revisions and original logo checksums.
+- [Source boundaries](docs/sources.md): authority, differences and downstream usage.
+- [Asset notes](assets/README.md): SVG usage and rights.
+
+For new UI, start with the brief, import both CSS files, and use semantic custom properties. Treat the theme's existing component API as a separate dependency. Inspect original artwork before choosing a logo variant.

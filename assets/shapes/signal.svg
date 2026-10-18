@@ -1,0 +1,1 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><title>Plan B network energy dot</title><defs><linearGradient id="energy"><stop stop-color="#ffb604"/><stop offset=".28" stop-color="#ff5db1"/><stop offset=".58" stop-color="#7468ff"/><stop offset="1" stop-color="#23f5ff"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="url(#energy)"/></svg>
