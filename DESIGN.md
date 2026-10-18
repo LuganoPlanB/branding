@@ -114,7 +114,7 @@ The reference is predominantly flat: pale tonal fields, restrained dividers and 
 
 Gently rounded cards and panels use the frontmatter geometry; compact actions use pill corners. Dot and short-band SVGs are new reusable expressions of existing theme geometry, not official logos. Keep their use sparse.
 
-Project identities use fixed preview grounds independent of the page theme. Bitcoin Roots previews show the original orange, a black variant on warm white and a white variant on charcoal. Project colors stay separate from the Foundation token palette. The Lottie source is a download; the guide does not autoplay it.
+Project identities use fixed preview grounds independent of the page theme. Bitcoin Roots previews show the original orange, a black variant on warm white and a white variant on charcoal. Project colors stay separate from the Foundation token palette. The Lottie source remains downloadable and has an inline SVG-rendered preview. The player loads on explicit Play, offers pause/resume/replay and never autoplays, including with reduced motion. A static SVG remains available without JavaScript or if loading fails.
 
 ## Components
 
