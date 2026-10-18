@@ -19,7 +19,7 @@ for filename,kind,mode in packages:
         assert f'presentationml.{kind}.main+xml' in ct
         slides=[n for n in names if n.startswith('ppt/slides/slide') and n.endswith('.xml') and '/_rels/' not in n]
         layouts=[n for n in names if n.startswith('ppt/slideLayouts/slideLayout') and n.endswith('.xml') and '/_rels/' not in n]
-        assert len(slides)==10 and len(layouts)==11
+        assert len(slides)==13 and len(layouts)==11
         for layout in layouts:
             tree=ET.fromstring(z.read(layout)); assert tree.find('p:cSld',ns).get('name').startswith('Plan B / ')
             assert tree.get('showMasterSp')=='1','Layout artwork must remain visible'
@@ -50,6 +50,38 @@ for filename,kind,mode in packages:
                         props=p.find('a:pPr',ns)
                         assert props is not None and props.get('algn')=='l','Explicit left alignment required'
                         assert props.find('a:buNone',ns) is not None,'Default bullets must be disabled'
+        # Editing contract: cover artwork is on the slide, not buried in a layout.
+        cover=ET.fromstring(z.read('ppt/slides/slide1.xml'))
+        cover_shapes={sh.find('p:nvSpPr/p:cNvPr',ns).get('name'):sh for sh in cover.findall('p:cSld/p:spTree/p:sp',ns)}
+        assert 'Cover / Editable values' in cover_shapes
+        assert 'Cover / Background panel' in cover_shapes
+        movable=cover_shapes['Cover / Movable gradient']
+        assert movable.find('p:spPr/a:gradFill',ns) is not None
+        assert movable.find('p:spPr/a:xfrm/a:off',ns).get('y')=='0', 'Large gradient belongs at the top by default'
+        assert len(cover.findall('p:cSld/p:spTree/p:pic',ns))==1
+        for layout in layouts:
+            assert b'Cover /' not in z.read(layout), 'Cover artwork must remain directly selectable'
+        # All nine original vector files must be embedded without modification.
+        assert len(z.namelist())==len(names), 'Duplicate ZIP entries are invalid'
+        for form in ('wide','square','tall'):
+            for variant in ('color','black','white'):
+                assert z.read(f'ppt/media/planb-{form}-{variant}.svg') == (root.parent/f'assets/logos/lugano_planb_2026_logo_{form}_{variant}.svg').read_bytes()
+        for number in (11,12,13):
+            library=ET.fromstring(z.read(f'ppt/slides/slide{number}.xml'))
+            pictures=library.findall('p:cSld/p:spTree/p:pic',ns)
+            assert len(pictures)==3, 'Each library slide must offer three selectable logos'
+            for picture in pictures:
+                assert any(node.tag.endswith('}svgBlip') for node in picture.iter()), 'Logos must retain SVG payloads'
+        master=ET.fromstring(z.read('ppt/slideMasters/slideMaster1.xml'))
+        master_text=[''.join(shape.itertext()) for shape in master.findall('p:cSld/p:spTree/p:sp',ns)]
+        assert master_text==['Plan B Foundation','Civic Digital Commons'], 'Both footer fields must be editable on the single parent master'
+        for part in slides+layouts:
+            data=z.read(part)
+            assert b'Shared footer /' not in data, 'Do not duplicate footer text on slides or layouts'
+        for part in slides+layouts+['ppt/slideMasters/slideMaster1.xml']:
+            tree=ET.fromstring(z.read(part))
+            ids=[node.get('id') for node in tree.findall('.//p:cNvPr',ns)]
+            assert len(ids)==len(set(ids)), (part,'duplicate shape IDs')
         assert any(n.startswith('ppt/charts/chart') and n.endswith('.xml') for n in names)
         assert any(n.startswith('ppt/embeddings/') and n.endswith('.xlsx') for n in names)
         assert any(b'<a:tbl>' in z.read(n) for n in slides)
@@ -64,7 +96,7 @@ for filename,kind,mode in packages:
                     if rel.get('TargetMode')=='External': continue
                     target=posixpath.normpath(str(base/rel.get('Target'))).lstrip('/')
                     assert target in names,(name,target)
-        print(f'PASS {filename}: {mode} palette, token-matched gradients on every layout; 10 slides, 11 named layouts, 16:9, Inter theme, editable chart/workbook and table, valid XML and relationships.')
+        print(f'PASS {filename}: {mode} palette, token-matched gradients on every layout; 13 slides, 11 named layouts, selectable SVG logos and cover gradient, shared master footer, 16:9, Inter theme, editable chart/workbook and table, valid XML and relationships.')
 
 for stem,ext in [('starter','pptx'),('template','potx')]:
     assert (root/f'planb-{stem}.{ext}').read_bytes()==(root/f'planb-{stem}-light.{ext}').read_bytes(), 'Legacy URLs must match light edition'

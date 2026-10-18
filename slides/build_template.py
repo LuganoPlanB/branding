@@ -94,13 +94,23 @@ def gradient(s,x,y,w,h):
     g.append(stops); lin=OxmlElement('a:lin'); lin.set('ang','0'); lin.set('scaled','1'); g.append(lin); sp.insert_element_before(g,'a:ln','a:effectLst')
     return sh
 
-def logo(s,x,y,w,variant='white'):
-    path=ROOT/f'assets/logos/lugano_planb_2026_logo_wide_{variant}.svg'
+logo_parts={}
+
+def logo(s,x,y,w,variant='white',form='wide',h=None):
+    path=ROOT/f'assets/logos/lugano_planb_2026_logo_{form}_{variant}.svg'
     raw=path.read_bytes(); fallback=cairosvg.svg2png(bytestring=raw,output_width=1416)
     pic=s.shapes.add_picture(BytesIO(fallback),Inches(x),Inches(y),width=Inches(w))
-    pic.name="Original Lugano's Plan B mark"
+    if h is not None:
+        if pic.height > Inches(h):
+            pic.width=int(pic.width*Inches(h)/pic.height); pic.height=Inches(h)
+        pic.left=Inches(x)+(Inches(w)-pic.width)//2
+        pic.top=Inches(y)+(Inches(h)-pic.height)//2
+    pic.name=f'Logo / {form.title()} / {variant.title()} (SVG)' 
     pic._element.xpath('.//p:cNvPr')[0].set('descr',"Lugano's Plan B original logo; existing mark, not a new Foundation logo")
-    part=Part(PackURI(f'/ppt/media/planb-{variant}.svg'),'image/svg+xml',prs.part.package,raw)
+    key=(form,variant)
+    if key not in logo_parts:
+        logo_parts[key]=Part(PackURI(f'/ppt/media/planb-{form}-{variant}.svg'),'image/svg+xml',prs.part.package,raw)
+    part=logo_parts[key]
     rid=s.part.relate_to(part,RT.IMAGE)
     blip=pic._element.xpath('.//a:blip')[0]; exts=OxmlElement('a:extLst'); ext=OxmlElement('a:ext'); ext.set('uri','{96DAC541-7B7A-43D3-8B79-37D633B846F1}')
     svg=etree.Element('{http://schemas.microsoft.com/office/drawing/2016/SVG/main}svgBlip'); svg.set(qn('r:embed'),rid)
@@ -111,8 +121,15 @@ def chrome(s,dark=False):
     bg=s.background.fill; bg.solid(); bg.fore_color.rgb=rgb('cool' if dark else 'canvas')
     fg='navy'
     gradient(s,.65,6.74,12,.10)
-    text(s,'Plan B Foundation',.65,6.98,4,.25,11,fg,True)
-    text(s,'Civic Digital Commons',9.4,6.98,3.25,.25,11,fg)
+    if not len(prs.slide_master.shapes):
+        # One source for the footer, inherited by every layout and slide.
+        for label,x,w,bold,name in [('Plan B Foundation',.65,4,True,'Shared footer / Organization'),
+                                    ('Civic Digital Commons',9.4,3.25,False,'Shared footer / Tagline')]:
+            sh=text(s,label,x,6.98,w,.25,11,fg,bold,name=name)
+            node=sh._element
+            node.getparent().remove(node)
+            node.find(qn('p:nvSpPr')).find(qn('p:cNvPr')).set('id',str(len(prs.slide_master.shapes)+2))
+            prs.slide_master.shapes._spTree.insert_element_before(node,'p:extLst')
 
 def heading(s,title,sub=None):
     text(s,title,.65,.55,12,1.1,36,'navy',True,('title',0))
@@ -135,6 +152,10 @@ def finalize(s,notes):
     layout=s.slide_layout
     layout._element.cSld.insert(0,deepcopy(s._element.cSld.bg))
     for sh in list(s.shapes):
+        # Direct slide objects stay selectable in normal editing view. Duplicate
+        # the supplied cover when another cover with this artwork is needed.
+        if sh.name.startswith(('Cover /','Logo /')):
+            continue
         cloned=deepcopy(sh._element)
         for node in cloned.iter():
             for attr,val in list(node.attrib.items()):
@@ -149,10 +170,11 @@ s=new(0,'Cover')
 text(s,'[Presentation\ntitle]',.65,1.35,7.3,2.15,48,'navy',True,('title',0))
 text(s,'[A clear sentence about the civic purpose]',.68,3.9,6.8,.9,24,'ink',False,('subTitle',1))
 text(s,'[Presenter / team]\n[Event · date]',.68,5.55,6.5,.8,17,'ink',False,('body',2))
-rect(s,8.55,0,4.79,6.65,'panel'); logo(s,9.08,1.45,3.72)
-text(s,'Open.\nCapable.\nCurious.\nGrounded.',9.08,3.05,3.6,2.3,29,'onpanel',True)
-gradient(s,8.55,6.25,4.79,.4)
-finalize(s,'COVER. Replace bracketed text. Aim for a title under 8 words. Keep the inherited mark intact. This template uses the existing Lugano Plan B identity, not a newly designed Foundation logo. Install bundled Inter fonts before editing. Choose Home > New Slide for Plan B layouts.')
+rect(s,8.55,0,4.79,6.65,'panel').name='Cover / Background panel'
+logo(s,9.08,1.45,3.72)
+text(s,'Open.\nCapable.\nCurious.\nGrounded.',9.08,3.05,3.6,2.3,29,'onpanel',True,name='Cover / Editable values')
+gradient(s,8.55,0,4.79,.4).name='Cover / Movable gradient'
+finalize(s,'COVER. Replace bracketed text. Aim for a title under 8 words. Keep the inherited mark intact. This template uses the existing Lugano Plan B identity, not a newly designed Foundation logo. Install bundled Inter fonts before editing. The right-side panel, SVG logo, values text and top gradient are separate selectable slide objects. Duplicate this cover to preserve them; New Slide uses the content layout only. Swap logos by copying from the three logo-library slides. Edit both shared footer text boxes once on View > Slide Master > the top parent master, then Close Master View.')
 
 s=new(1,'Section',True)
 text(s,'[Section title]',.8,2.05,11.6,1.7,48,'navy',True,('title',0))
@@ -245,8 +267,8 @@ finalize(s,'NEXT STEPS. Close with specific actions and realistic timing. Add a 
 
 s=new(9,'Template guide')
 heading(s,'Make it yours. Keep it Plan B.','Delete this guidance slide before presenting.')
-text(s,'Use the layouts\nInstall Inter, then choose Home → New Slide. Replace bracketed prompts. Duplicate the chart or table example to retain its styling.',.7,2.75,5.6,2.9,23,'ink',False,('body',2))
-text(s,'Keep it clear\nOne idea per slide. Keep the selected light or dark palette. Preserve the gradient band and keep text on solid grounds. Aim for 20pt or larger body text.',7,2.75,5.6,2.9,23,'ink',False,('body',3))
+text(s,'Edit the slide\nDuplicate the cover to keep its movable SVG logo, text, panel and top gradient. Copy other logo forms from the library slides. Use New Slide for content layouts.',.7,2.75,5.6,2.9,23,'ink',False,('body',2))
+text(s,'Edit every footer at once\nView → Slide Master → select the top parent master. Edit the two footer text boxes, then Close Master View. Delete this guide and the logo library before presenting.',7,2.75,5.6,2.9,23,'ink',False,('body',3))
 for i,col in enumerate(['navy','sky','gold','canvas']):
     rect(s,.7+i*.6,6,.4,.25,col)
 text(s,'Full guidance: plan-b.foundation/branding/',3.4,6,8.8,.4,15,'navy')
@@ -257,6 +279,18 @@ layout=layouts[10]; layout.name=f'Plan B / {MODE.title()} / Blank'; layout.backg
 
 band=next(sh for sh in layouts[0].shapes if sh.name=='Plan B / Network energy gradient')
 layout.shapes._spTree.insert_element_before(deepcopy(band._element),'p:extLst')
+
+# Copyable vector logo library: three forms in every supplied color variant.
+# These objects belong to the slides, not the Blank layout.
+for variant in ('color','black','white'):
+    s=prs.slides.add_slide(layout); s._element.set('showMasterSp','1')
+    heading(s,f'Logo library / {variant.title()}', 'Select a logo and copy it to any slide. Delete this library before presenting.')
+    for i,form in enumerate(('wide','square','tall')):
+        x=.65+i*4.15
+        text(s,form.title(),x,2.4,3.7,.45,23,'navy',True)
+        rect(s,x,3,3.7,3.25,'FFFEFA' if variant=='black' else '082952').name=f'Logo ground / {form}'
+        logo(s,x+.25,3.25,3.2,variant,form,h=2.75)
+    s.notes_slide.notes_text_frame.text=('LOGO LIBRARY. Each logo is an original embedded SVG with a PNG fallback for older viewers. Copy the logo itself, not the background rectangle. Keep original proportions and colors. Color and white logos need a dark ground; black needs a light ground. Delete this slide before presenting. Shared footer: View > Slide Master > top parent master.')
 
 # Apply actual theme colors/fonts so new objects and charts inherit Plan B defaults.
 theme=prs.slide_master.part.part_related_by(RT.THEME)
@@ -282,4 +316,4 @@ with zipfile.ZipFile(starter) as src, zipfile.ZipFile(template,'w',zipfile.ZIP_D
         blob=src.read(item.filename)
         if item.filename=='[Content_Types].xml': blob=blob.replace(b'application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml',b'application/vnd.openxmlformats-officedocument.presentationml.template.main+xml')
         dst.writestr(item,blob)
-print(f'Generated {MODE}: 10 editable starter slides, 11 named layouts with gradients, PPTX and POTX.')
+print(f'Generated {MODE}: 10 example slides plus 3 vector logo-library slides, 11 named layouts with gradients, PPTX and POTX.')
